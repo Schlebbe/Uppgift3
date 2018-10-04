@@ -65,15 +65,21 @@ namespace Uppgift3
 
         public void SaveToFile(List<Customer> customers, List<Account> accounts)
         {
+            string path = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
+            DateTime dt = new DateTime();
+            dt = DateTime.Now;
+            string filename = dt.Year+""+dt.Month+""+dt.Day+"-"+dt.Hour+dt.Minute+".txt";
+            path = Path.Combine(path, filename);
+            Console.WriteLine("Path to my file: " + path);
             int customerLength = customers.Count();
-            using (StreamWriter streamWriter = new StreamWriter(GetPath()))
-            {
-                for (int i = 0; i < customerLength; i++)
-                {
-                    //streamWriter.Write("hej");//Få detta o funka med o spara en fil.
-                }
-            }
+            //using (FileStream fs = new FileStream(path, FileMode.Append))
             
+            using (StreamWriter streamWriter = new StreamWriter(path))
+            {
+                streamWriter.WriteLine(customerLength);
+                streamWriter.WriteLine("hej");
+            }
+
             foreach (var c in customers)
             {
                 //Console.WriteLine($"{c.CustomerNr};{c.OrgNr};{c.CompanyName};{c.Adress};{c.City};{c.Region};{c.PostNr};{c.Country};{c.PhoneNr}");
@@ -90,6 +96,24 @@ namespace Uppgift3
             {
                 path = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\" + Console.ReadLine();
                 StreamReader testStream = new StreamReader(path);
+            }
+            catch
+            {
+                Console.Clear();
+                Console.WriteLine("Felaktigt filnamn, försök igen!");
+                path = GetPath();
+            }
+
+            return path;
+        }
+
+        private static string GetPathWithoutAsking()
+        {
+            string path;
+            try
+            {
+                path = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
+                //StreamReader testStream = new StreamReader(path);
             }
             catch
             {
