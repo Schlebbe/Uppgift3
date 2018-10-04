@@ -65,55 +65,48 @@ namespace Uppgift3
 
         public void SaveToFile(List<Customer> customers, List<Account> accounts)
         {
-            string path = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
+            string pathDator = @"C:\Users\sebastian.TEMTRON\Source\Repos\Uppgift3\Uppgift3\";
+            string pathLaptop = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
             DateTime dt = new DateTime();
             dt = DateTime.Now;
-            string filename = dt.Year+""+dt.Month+""+dt.Day+"-"+dt.Hour+dt.Minute+".txt";
-            path = Path.Combine(path, filename);
-            Console.WriteLine("Path to my file: " + path);
+            string filename = dt.Year + "" + dt.Month + "" + dt.Day + "-" + dt.Hour + dt.Minute + ".txt";
+            pathDator = Path.Combine(pathDator, filename);
+            Console.WriteLine("Path to my file: " + pathDator);
             int customerLength = customers.Count();
+            int accountsLength = accounts.Count();
             //using (FileStream fs = new FileStream(path, FileMode.Append))
-            
-            using (StreamWriter streamWriter = new StreamWriter(path))
+
+            using (StreamWriter streamWriter = new StreamWriter(pathDator))
             {
                 streamWriter.WriteLine(customerLength);
-                streamWriter.WriteLine("hej");
+                foreach (var c in customers)
+                {
+                    //Console.WriteLine($"{c.CustomerNr};{c.OrgNr};{c.CompanyName};{c.Adress};{c.City};{c.Region};{c.PostNr};{c.Country};{c.PhoneNr}");
+                    string test = $"{c.CustomerNr};{c.OrgNr};{c.CompanyName};{c.Adress};{c.City};{c.Region};{c.PostNr};{c.Country};{c.PhoneNr}";
+                    streamWriter.WriteLine(test);
+                    //Console.WriteLine(test);
+                }
+                streamWriter.WriteLine(accountsLength);
+                foreach (var a in accounts)
+                {
+                    //Console.WriteLine($"{c.CustomerNr};{c.OrgNr};{c.CompanyName};{c.Adress};{c.City};{c.Region};{c.PostNr};{c.Country};{c.PhoneNr}");
+                    string test = $"{a.AccountNr};{a.Owner};{a.Balance.ToString(CultureInfo.InvariantCulture)}";
+                    streamWriter.WriteLine(test);
+                    //Console.WriteLine(test);
+                }
             }
 
-            foreach (var c in customers)
-            {
-                //Console.WriteLine($"{c.CustomerNr};{c.OrgNr};{c.CompanyName};{c.Adress};{c.City};{c.Region};{c.PostNr};{c.Country};{c.PhoneNr}");
-                string test = $"{c.CustomerNr};{c.OrgNr};{c.CompanyName};{c.Adress};{c.City};{c.Region};{c.PostNr};{c.Country};{c.PhoneNr}";
-                //Console.WriteLine(test);
-
-            }
         }
 
         private static string GetPath()
         {
             string path;
+            string pathDator = @"C:\Users\sebastian.TEMTRON\Source\Repos\Uppgift3\Uppgift3\";
+            string pathLaptop = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
             try
             {
-                path = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\" + Console.ReadLine();
+                path = pathDator + Console.ReadLine();
                 StreamReader testStream = new StreamReader(path);
-            }
-            catch
-            {
-                Console.Clear();
-                Console.WriteLine("Felaktigt filnamn, försök igen!");
-                path = GetPath();
-            }
-
-            return path;
-        }
-
-        private static string GetPathWithoutAsking()
-        {
-            string path;
-            try
-            {
-                path = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
-                //StreamReader testStream = new StreamReader(path);
             }
             catch
             {

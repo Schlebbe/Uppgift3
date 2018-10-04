@@ -120,7 +120,7 @@ namespace Uppgift3
         private void AddCustomer()
         {
             Console.WriteLine("* Skapa kund *");
-            Console.Write("Org namn: ");
+            Console.Write("Organisationsnummer: ");
             string orgNr = Console.ReadLine();//Fixa kan ej vara blankt!
             Console.Write("Företagsnamn: ");
             string compNr = Console.ReadLine();

@@ -56,6 +56,7 @@ namespace Uppgift3
                 PhoneNr = phoneNr
             };
             Customers.Add(customer);
+            Console.WriteLine("En kund har lagts till!");
         }
 
         public void RemoveCustomer(string query)
@@ -140,7 +141,7 @@ namespace Uppgift3
                 Console.WriteLine("Organisationsnummer: " + custQuery.OrgNr);
                 Console.WriteLine("Namn: " + custQuery.CompanyName);
                 Console.WriteLine("Adress: " + custQuery.Adress); //Kanske fler? Typ zip code
-                Console.WriteLine("City: " + custQuery.City);
+                Console.WriteLine("Stad: " + custQuery.City);
                 Console.WriteLine("Region: " + custQuery.Region);
                 Console.WriteLine("Postnummer: " + custQuery.PostNr);
                 Console.WriteLine("Land: " + custQuery.Country);

@@ -60,6 +60,7 @@
     </Content>
     <Content Include="bankdata.txt" />
     <Content Include="README.txt" />
+    <Content Include="TODO.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
