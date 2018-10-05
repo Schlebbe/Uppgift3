@@ -10,10 +10,15 @@ namespace Uppgift3
 {
     class DataHandler
     {
+        public string test = "";
+
         public Bank ReadFromFile()
         {
             string path = GetPath();
-
+            Console.WriteLine("\n******************************");
+            Console.WriteLine("* VÄLKOMMEN TILL BANKAPP 1.0 *");
+            Console.WriteLine("******************************\n");
+            Console.WriteLine("Läser in " + test + "...");
             var bank = new Bank();
 
             using (StreamReader reader = new StreamReader(path))//Lägg till try catch
@@ -42,6 +47,7 @@ namespace Uppgift3
                 }
 
                 int countOfAccounts = int.Parse(reader.ReadLine());
+                decimal totalBalance = 0;
 
                 for (int i = 0; i < countOfAccounts; i++)
                 {
@@ -50,15 +56,20 @@ namespace Uppgift3
                     //Console.WriteLine(line);
                     //Console.WriteLine(cols[0]);
 
+
                     Account account = new Account
                     {
                         AccountNr = int.Parse(cols[0]),
                         Owner = int.Parse(cols[1]),
                         Balance = decimal.Parse(cols[2], CultureInfo.InvariantCulture)
                     };
+                    totalBalance += account.Balance;
 
                     bank.Accounts.Add(account);
                 }
+                Console.WriteLine("Antal kunder: " + countOfCustomers);
+                Console.WriteLine("Antal konton: " + countOfAccounts);
+                Console.WriteLine("Totalt saldo: " + totalBalance + "\n");
             }
             return bank;
         }
@@ -67,18 +78,18 @@ namespace Uppgift3
         {
             string pathDator = @"C:\Users\sebastian.TEMTRON\Source\Repos\Uppgift3\Uppgift3\";
             string pathLaptop = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
-            DateTime dt = new DateTime();
-            dt = DateTime.Now;
+            DateTime dt = DateTime.Now;
             string filename = dt.Year + "" + dt.Month + "" + dt.Day + "-" + dt.Hour + dt.Minute + ".txt";
             pathDator = Path.Combine(pathDator, filename);
-            Console.WriteLine("Path to my file: " + pathDator);
-            int customerLength = customers.Count();
-            int accountsLength = accounts.Count();
+            //Console.WriteLine("Path to my file: " + pathDator);
+            int countOfCustomers = customers.Count();
+            int countOfAccounts = accounts.Count();
+            decimal totaltBalance = 0;
             //using (FileStream fs = new FileStream(path, FileMode.Append))
 
             using (StreamWriter streamWriter = new StreamWriter(pathDator))
             {
-                streamWriter.WriteLine(customerLength);
+                streamWriter.WriteLine(countOfCustomers);
                 foreach (var c in customers)
                 {
                     //Console.WriteLine($"{c.CustomerNr};{c.OrgNr};{c.CompanyName};{c.Adress};{c.City};{c.Region};{c.PostNr};{c.Country};{c.PhoneNr}");
@@ -86,26 +97,32 @@ namespace Uppgift3
                     streamWriter.WriteLine(test);
                     //Console.WriteLine(test);
                 }
-                streamWriter.WriteLine(accountsLength);
+                streamWriter.WriteLine(countOfAccounts);
                 foreach (var a in accounts)
                 {
                     //Console.WriteLine($"{c.CustomerNr};{c.OrgNr};{c.CompanyName};{c.Adress};{c.City};{c.Region};{c.PostNr};{c.Country};{c.PhoneNr}");
                     string test = $"{a.AccountNr};{a.Owner};{a.Balance.ToString(CultureInfo.InvariantCulture)}";
                     streamWriter.WriteLine(test);
+                    totaltBalance += a.Balance;
                     //Console.WriteLine(test);
                 }
             }
+            Console.WriteLine("Sparar till " + filename + "...");
+            Console.WriteLine("Antal kunder: " + countOfCustomers);
+            Console.WriteLine("Antal konton: " + countOfAccounts);
+            Console.WriteLine("Totalt saldo: " + totaltBalance);
 
         }
 
-        private static string GetPath()
+        public string GetPath()
         {
             string path;
             string pathDator = @"C:\Users\sebastian.TEMTRON\Source\Repos\Uppgift3\Uppgift3\";
             string pathLaptop = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
             try
             {
-                path = pathDator + Console.ReadLine();
+                test = Console.ReadLine();
+                path = pathDator + test;
                 StreamReader testStream = new StreamReader(path);
             }
             catch

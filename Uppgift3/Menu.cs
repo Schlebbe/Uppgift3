@@ -33,10 +33,10 @@ namespace Uppgift3
                     "8) Insättning\n" +
                     "8) Uttag\n" +
                     "9) Överföring");
-                Console.Write("> ");
+                Console.Write("\n> ");
                 //onlyFirst = true;
             }
-            else { Console.Write("> "); }
+            else { Console.Write("\n> "); }
 
             string input = Console.ReadLine();
 
@@ -63,7 +63,7 @@ namespace Uppgift3
                     break;
                 case 2:
                     Console.WriteLine("* Visa kundbild *");
-                    Console.Write("Kundnummer? ");
+                    Console.Write("Kundnummer eller kontonummer? ");
                     string query2 = Console.ReadLine();
                     Bank.ShowInfo(query2);
                     AskForInput(true);

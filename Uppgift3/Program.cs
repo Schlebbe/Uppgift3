@@ -18,6 +18,7 @@ namespace Uppgift3
             DataHandler dataHandler = new DataHandler();
             var bank = dataHandler.ReadFromFile();
             Menu menu = new Menu(bank);
+            Console.ReadKey();
             //Console.WriteLine(bank.Customers[0].CustomerNr);
         }
 

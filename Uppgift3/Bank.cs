@@ -136,20 +136,31 @@ namespace Uppgift3
 
             if (custQuery != null)
             {
-                Console.WriteLine();
-                Console.WriteLine("Kundnummer: " + custQuery.CustomerNr);
-                Console.WriteLine("Organisationsnummer: " + custQuery.OrgNr);
-                Console.WriteLine("Namn: " + custQuery.CompanyName);
-                Console.WriteLine("Adress: " + custQuery.Adress); //Kanske fler? Typ zip code
-                Console.WriteLine("Stad: " + custQuery.City);
-                Console.WriteLine("Region: " + custQuery.Region);
-                Console.WriteLine("Postnummer: " + custQuery.PostNr);
-                Console.WriteLine("Land: " + custQuery.Country);
-                Console.WriteLine("Telefonnummer: " + custQuery.PhoneNr);
+                PrintCustomerInfo(custQuery);
             }
             else
             {
-                Console.WriteLine("Finns ingen kund med detta kundnummer!");
+                //Console.WriteLine("test!!!");
+                //Console.WriteLine(int.Parse(query));
+                var custQuery2 = (from c in Customers
+                                  from a in Accounts
+                                  where a.AccountNr == int.Parse(query) && a.Owner == c.CustomerNr
+                                  select c).ToList().FirstOrDefault();
+                //Console.WriteLine(custQuery2.Count);
+                if (custQuery2 != null)
+                {
+                    PrintCustomerInfo(custQuery2);
+
+                }
+                else
+                {
+                    Console.WriteLine("Ej giltigt kund- eller kontonummer!");
+                }
+                //foreach (var c in custQuery2)
+                //{
+                //    Console.WriteLine("Test: "+c.CustomerNr);
+                //}
+
             }
 
 
@@ -163,16 +174,30 @@ namespace Uppgift3
             decimal totalBalance = 0;
             if (accQuery.Count > 0)
             {
-                Console.WriteLine();
-                Console.WriteLine("Konton:");
+                Console.WriteLine("\nKonton:");
                 foreach (var a in accQuery)
                 {
                     Console.WriteLine("Konto " + a.AccountNr + ": " + a.Balance.ToString(CultureInfo.InvariantCulture) + " kr");
                     totalBalance += a.Balance;
                 }
 
-                Console.WriteLine("Totalt saldo: " + totalBalance.ToString(CultureInfo.InvariantCulture)+" kr");
+                Console.WriteLine("Totalt saldo: " + totalBalance.ToString(CultureInfo.InvariantCulture) + " kr");
             }
+
+
+        }
+
+        private static void PrintCustomerInfo(Customer custQuery)
+        {
+            Console.WriteLine("\nKundnummer: " + custQuery.CustomerNr);
+            Console.WriteLine("Organisationsnummer: " + custQuery.OrgNr);
+            Console.WriteLine("Namn: " + custQuery.CompanyName);
+            Console.WriteLine("Adress: " + custQuery.Adress); //Kanske fler? Typ zip code
+            Console.WriteLine("Stad: " + custQuery.City);
+            Console.WriteLine("Region: " + custQuery.Region);
+            Console.WriteLine("Postnummer: " + custQuery.PostNr);
+            Console.WriteLine("Land: " + custQuery.Country);
+            Console.WriteLine("Telefonnummer: " + custQuery.PhoneNr);
         }
 
         public void SearchCustomer(string query)
@@ -183,7 +208,7 @@ namespace Uppgift3
 
             foreach (var i in custQuery)
             {
-                Console.Write(i.CustomerNr + ": ");
+                Console.Write(/*"Kundnummer "+*/i.CustomerNr + ": ");
                 Console.WriteLine(i.CompanyName + " ");
             }
         }
@@ -226,3 +251,54 @@ namespace Uppgift3
         }
     }
 }
+
+#region Kopia av ShowInfo
+//public void ShowInfo(string query)
+//{
+//    var custQuery = (from c in Customers
+//                     where c.CustomerNr == int.Parse(query)
+//                     select c).ToList().FirstOrDefault();
+
+//    //foreach (var c in custQuery)
+//    //{
+
+//    if (custQuery != null)
+//    {
+//        Console.WriteLine();
+//        Console.WriteLine("Kundnummer: " + custQuery.CustomerNr);
+//        Console.WriteLine("Organisationsnummer: " + custQuery.OrgNr);
+//        Console.WriteLine("Namn: " + custQuery.CompanyName);
+//        Console.WriteLine("Adress: " + custQuery.Adress); //Kanske fler? Typ zip code
+//        Console.WriteLine("Stad: " + custQuery.City);
+//        Console.WriteLine("Region: " + custQuery.Region);
+//        Console.WriteLine("Postnummer: " + custQuery.PostNr);
+//        Console.WriteLine("Land: " + custQuery.Country);
+//        Console.WriteLine("Telefonnummer: " + custQuery.PhoneNr);
+//    }
+//    else
+//    {
+//        Console.WriteLine("Finns ingen kund med detta kundnummer!");
+//    }
+
+
+//    //}
+
+//    var accQuery = (from a in Accounts
+//                    from c in Customers
+//                    where a.Owner == c.CustomerNr && c.CustomerNr == int.Parse(query)
+//                    select a).ToList();
+
+//    decimal totalBalance = 0;
+//    if (accQuery.Count > 0)
+//    {
+//        Console.WriteLine("\nKonton:");
+//        foreach (var a in accQuery)
+//        {
+//            Console.WriteLine("Konto " + a.AccountNr + ": " + a.Balance.ToString(CultureInfo.InvariantCulture) + " kr");
+//            totalBalance += a.Balance;
+//        }
+
+//        Console.WriteLine("Totalt saldo: " + totalBalance.ToString(CultureInfo.InvariantCulture) + " kr");
+//    }
+//}
+#endregion
