@@ -56,6 +56,7 @@ namespace Uppgift3
                 PhoneNr = phoneNr
             };
             Customers.Add(customer);
+            AddAccount(CurrentNr.ToString());
             Console.WriteLine("En kund har lagts till!");
         }
 
@@ -69,60 +70,90 @@ namespace Uppgift3
             //    Console.WriteLine(a.Balance);
             //}
 
-            ;
             if (!int.TryParse(query, out int parsedQuery))
             {
                 Console.WriteLine("Kundnummer kan endast bestå av siffror.");
             }
-
-            var custQuery = (from c in Customers
-                             where c.CustomerNr == parsedQuery
-                             select c).ToList();
-
-            var accQuery = (from c in Customers
-                            from a in Accounts
-                            where a.Owner == c.CustomerNr
-                            select a).ToList();
-
-            bool validCustomer = false;
-            bool haveAcc = false;
-            foreach (var c in custQuery)
+            else
             {
-                //Console.WriteLine("kördes");
-                //Console.WriteLine(c.CustomerNr);
-                foreach (var a in accQuery)
+
+
+
+                var custQuery = (from c in Customers
+                                 where c.CustomerNr == parsedQuery
+                                 select c).ToList();
+
+                var accQuery = (from c in Customers
+                                from a in Accounts
+                                where a.Owner == c.CustomerNr
+                                select a).ToList();
+
+                bool validCustomer = false;
+                bool haveAcc = false;
+                foreach (var c in custQuery)
                 {
-                    //Console.WriteLine(a.Owner);
+                    //Console.WriteLine("kördes");
                     //Console.WriteLine(c.CustomerNr);
-                    if (a.Owner == c.CustomerNr)
+                    foreach (var a in accQuery)
                     {
-                        haveAcc = true;
-                        break;
+                        //Console.WriteLine(a.Owner);
+                        //Console.WriteLine(c.CustomerNr);
+                        if (a.Owner == c.CustomerNr)
+                        {
+                            haveAcc = true;
+                            break;
+                        }
+                    }
+                    if (!haveAcc)
+                    {
+                        Customers.RemoveAt(Customers.IndexOf(c));
+                        Console.WriteLine("Kund borttagen!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Ta bort konton först!");
+                    }
+
+                    if (c.CustomerNr == parsedQuery)
+                    {
+                        validCustomer = true;
                     }
                 }
-                if (!haveAcc)
-                {
-                    Customers.RemoveAt(Customers.IndexOf(c));
-                    Console.WriteLine("Kund borttagen!");
-                }
-                else
-                {
-                    Console.WriteLine("Ta bort konton först!");
-                }
 
-                if (c.CustomerNr == parsedQuery)
+                if (!validCustomer)
                 {
-                    validCustomer = true;
+                    Console.WriteLine("Skriv in ett giltigt kundnummer!");
                 }
+                //if (haveAcc)
+                //{
+                //}
             }
+        }
 
-            if (!validCustomer)
+        public void RemoveAccount(string query)
+        {
+            var accQuery = (from a in Accounts
+                            where a.AccountNr == int.Parse(query)
+                            select a).ToList();
+            if (accQuery.Count != 0)
             {
-                Console.WriteLine("Skriv in ett giltigt kundnummer!");
+                foreach (var a in accQuery)
+                {
+                    if (a.Balance == 0)
+                    {
+                        Accounts.RemoveAt(Accounts.IndexOf(a));
+                        Console.WriteLine("Konto borttaget!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Kontot måste vara tomt för att tas bort!");
+                    }
+                }
             }
-            //if (haveAcc)
-            //{
-            //}
+            else
+            {
+                Console.WriteLine("Skriv in ett giltigt kontonummer!");
+            }
         }
 
         public void ShowInfo(string query)

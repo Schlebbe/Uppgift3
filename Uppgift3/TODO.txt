@@ -12,6 +12,9 @@ En lista ska visas med kundnummer och namn. Skriv ut kundnumret. //Eww, la till 
 
 Det ska gå att ta fram en kundbild genom att ange antingen ett kundnummer eller kontonummer. //Kontonummer!!!
 
+Det ska också automatiskt skapas ett transaktionskonto med kunden som ägare.
+
+
 
 
 
@@ -20,8 +23,6 @@ Byt namn på alla variabler så fredrik inte får aids när han läser min kod.
 Flytta in .txt filerna i en mapp och använd den istället. Hitta sätt att använda filen oberoende av top-level folders (aka samma kod för laptopen och datorn).
 
 Fixa try.parse på allting.
-
-Det ska också automatiskt skapas ett transaktionskonto med kunden som ägare.
 
 Systemet ska också hantera insättningar, uttag och överföringar mellan konton. Det får inte bli några
 avrundningsfel så använd rätt typ för saldo och belopp som är pengar.

@@ -34,7 +34,6 @@ namespace Uppgift3
                     "8) Uttag\n" +
                     "9) Överföring");
                 Console.Write("\n> ");
-                //onlyFirst = true;
             }
             else { Console.Write("\n> "); }
 
@@ -51,40 +50,25 @@ namespace Uppgift3
             {
                 case 0:
                     Console.WriteLine("* Avsluta och spara *");
-                    //Bank.SaveToFile, antagligen en metod där som anropar datahandler
                     Bank.SaveToFile();
                     break;
                 case 1:
-                    Console.WriteLine("* Sök kund *");
-                    Console.Write("Namn eller postort? ");
-                    string query1 = Console.ReadLine().ToUpper();
-                    Bank.SearchCustomer(query1);
-                    AskForInput(true);
+                    SearchCustomer();
                     break;
                 case 2:
-                    Console.WriteLine("* Visa kundbild *");
-                    Console.Write("Kundnummer eller kontonummer? ");
-                    string query2 = Console.ReadLine();
-                    Bank.ShowInfo(query2);
-                    AskForInput(true);
+                    ShowCustomerInfo();
                     break;
                 case 3:
                     AddCustomer();
                     break;
-                case 4: //Inte helt klar, får inte finnas några konton som tillhör kunden. tror de blev klart, testa lite till.
-                    Console.WriteLine("* Ta bort kund *");
-                    Console.Write("Kundnummer att ta bort? ");
-                    string query3 = Console.ReadLine();
-                    Bank.RemoveCustomer(query3);
-                    AskForInput(true);
+                case 4: //Kunna ta bort om saldot på kontona är 0? Lägg till kod för det ifall att?
+                    RemoveCustomer();
                     break;
                 case 5:
-                    Console.Write("Kundnummer? ");
-                    string query4 = Console.ReadLine();
-                    Bank.AddAccount(query4);
-                    AskForInput(true);
+                    AddAccount();
                     break;
                 case 6:
+                    RemoveAccount();
                     break;
                 case 7:
                     break;
@@ -117,6 +101,24 @@ namespace Uppgift3
             //else { Console.WriteLine("Skriv en siffra mellan 0-9"); }
         }
 
+        private void SearchCustomer()
+        {
+            Console.WriteLine("* Sök kund *");
+            Console.Write("Namn eller postort? ");
+            string query = Console.ReadLine().ToUpper();
+            Bank.SearchCustomer(query);
+            AskForInput(true);
+        }
+
+        private void ShowCustomerInfo()
+        {
+            Console.WriteLine("* Visa kundbild *");
+            Console.Write("Kundnummer eller kontonummer? ");
+            string query = Console.ReadLine();
+            Bank.ShowInfo(query);
+            AskForInput(true);
+        }
+
         private void AddCustomer()
         {
             Console.WriteLine("* Skapa kund *");
@@ -138,6 +140,32 @@ namespace Uppgift3
             string phoneNr = Console.ReadLine();
 
             Bank.AddCustomer(orgNr, compNr, adress, city, region, postNr, country, phoneNr);
+            AskForInput(true);
+        }
+
+        private void RemoveCustomer()
+        {
+            Console.WriteLine("* Ta bort kund *");
+            Console.Write("Kundnummer? ");
+            string query = Console.ReadLine();
+            Bank.RemoveCustomer(query);
+            AskForInput(true);
+        }
+
+        private void AddAccount()
+        {
+            Console.Write("Kundnummer? ");
+            string query = Console.ReadLine();
+            Bank.AddAccount(query);
+            AskForInput(true);
+        }
+
+        private void RemoveAccount()
+        {
+            Console.WriteLine("* Ta bort konto *");
+            Console.Write("Kontonummer? ");
+            string query = Console.ReadLine();
+            Bank.RemoveAccount(query);
             AskForInput(true);
         }
     }
