@@ -14,22 +14,23 @@ Det ska gå att ta fram en kundbild genom att ange antingen ett kundnummer eller
 
 Det ska också automatiskt skapas ett transaktionskonto med kunden som ägare.
 
+TA UT/ÖVERFÖRA ELLER SÄTTA IN MINUS BELOPP AAAAAAAAAAH
 
 
 
+Kontonummer syns inte om man söker på kontonummer.
 
-Byt namn på alla variabler så fredrik inte får aids när han läser min kod.
+Byt namn på alla variabler så fredrik inte får aids när han läser min kod. Utropstecken eller punkter? Konsekvent med hur många \n det ska vara överallt.
 
 Flytta in .txt filerna i en mapp och använd den istället. Hitta sätt att använda filen oberoende av top-level folders (aka samma kod för laptopen och datorn).
 
-Fixa try.parse på allting.
+Fixa try.parse på allting. //Även på decimal(7,8,9)! //Lägg det i metoderna i menu för fan!
 
 Systemet ska också hantera insättningar, uttag och överföringar mellan konton. Det får inte bli några
 avrundningsfel så använd rätt typ för saldo och belopp som är pengar.
 
 Det ska framgå tydligt om någon försöker ta ut eller överföra mer pengar än vad som finns på kontot!
 
-6 (Ta bort konto)
 7 (Insättning)
 8 (Uttag)
 9 (Överföring)

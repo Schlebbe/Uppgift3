@@ -130,6 +130,74 @@ namespace Uppgift3
             }
         }
 
+        public void WithdrawMoney(string accountNumber, string amount)
+        {
+            var accountQuery = (from a in Accounts
+                                where a.AccountNr == int.Parse(accountNumber)
+                                select a).ToList().FirstOrDefault();
+
+            if (decimal.Parse(amount) > 0)
+            {
+                if ((accountQuery.Balance - decimal.Parse(amount)) >= 0)
+                {
+                    accountQuery.Balance -= decimal.Parse(amount);
+                    Console.WriteLine(amount.ToString(CultureInfo.InvariantCulture) + " kr har tagits ut från konto " + accountQuery.AccountNr + ".");
+
+                }
+                else
+                {
+                    Console.WriteLine("För lite saldo på kontot!");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Ej giltigt belopp!");
+            }
+        }
+
+        public void DepositMoney(string accountNumber, string amount)
+        {
+            var accountQuery = (from a in Accounts
+                                where a.AccountNr == int.Parse(accountNumber)
+                                select a).ToList().FirstOrDefault();
+            if (decimal.Parse(amount) > 0)
+            {
+                accountQuery.Balance += decimal.Parse(amount);
+                Console.WriteLine(amount.ToString(CultureInfo.InvariantCulture) + " kr har satts in på konto " + accountQuery.AccountNr + ".");
+            }
+            else
+            {
+                Console.WriteLine("Ej giltigt belopp!");
+            }
+        }
+
+        public void TransferMoney(string fromAccount, string toAccount, string amount)
+        {
+            var fromAccountQuery = (from a in Accounts
+                                    where a.AccountNr == int.Parse(fromAccount)
+                                    select a).ToList().FirstOrDefault();
+            var toAccountQuery = (from a in Accounts
+                                  where a.AccountNr == int.Parse(toAccount)
+                                  select a).ToList().FirstOrDefault();
+
+            if (decimal.Parse(amount) > 0)
+            {
+                if (!(fromAccountQuery.AccountNr == toAccountQuery.AccountNr))
+                {
+                    if (fromAccountQuery.Balance >= decimal.Parse(amount))
+                    {
+                        fromAccountQuery.Balance -= decimal.Parse(amount);
+                        toAccountQuery.Balance += decimal.Parse(amount);
+                        Console.WriteLine(amount.ToString(CultureInfo.InvariantCulture) + " kr har överförts från konto " + fromAccountQuery.AccountNr + " till " + toAccountQuery.AccountNr + ".");
+
+                    }
+                    else { Console.WriteLine("Inte tillräckligt på kontot!"); }
+                }
+                else { Console.WriteLine("Du kan bara överföra mellan två olika konton."); }
+            }
+            else { Console.WriteLine("Ej giltigt belopp!"); }
+        }
+
         public void RemoveAccount(string query)
         {
             var accQuery = (from a in Accounts

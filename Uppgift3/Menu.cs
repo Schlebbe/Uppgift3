@@ -30,7 +30,7 @@ namespace Uppgift3
                     "4) Ta bort kund\n" +
                     "5) Skapa konto\n" +
                     "6) Ta bort konto\n" +
-                    "8) Insättning\n" +
+                    "7) Insättning\n" +
                     "8) Uttag\n" +
                     "9) Överföring");
                 Console.Write("\n> ");
@@ -71,34 +71,56 @@ namespace Uppgift3
                     RemoveAccount();
                     break;
                 case 7:
+                    DepositMoney();
                     break;
                 case 8:
+                    WithdrawMoney();
                     break;
                 case 9:
+                    TransferMoney();
+                    break;
+                case 10:
                     break;
                 default:
                     Console.WriteLine("Skriv en siffra mellan 0-9");
                     AskForInput(true);
                     break;
             }
-            //if (9 >= x && x >= 0)//Byt till switch sats för i helvete
-            //{
-            //    if (x == 0)//Kod för att anropa kommandon 0-9
-            //    {
-            //        //Spara
-            //    }
-            //    else if (x == 1)
-            //    {
-            //        Console.Write("Namn eller postort? ");
-            //        string query = Console.ReadLine();
-            //        Bank.SearchCustomer(query);
-            //    }
-            //    else if (x == 5)
-            //    {
-            //        AddCustomer();
-            //    }
-            //}
-            //else { Console.WriteLine("Skriv en siffra mellan 0-9"); }
+        }
+
+        private void WithdrawMoney()
+        {
+            Console.WriteLine("* Uttag *");
+            Console.Write("Kontonummer? ");
+            var accountNumber = Console.ReadLine();
+            Console.Write("Summa? ");
+            var amount = Console.ReadLine();
+            Bank.WithdrawMoney(accountNumber, amount);
+            AskForInput(true);
+        }
+
+        private void DepositMoney()
+        {
+            Console.WriteLine("* Insättning *");
+            Console.Write("Kontonummer? ");
+            var accountNumber = Console.ReadLine();
+            Console.Write("Summa? ");
+            var amount = Console.ReadLine();
+            Bank.DepositMoney(accountNumber, amount);
+            AskForInput(true);
+        }
+
+        private void TransferMoney()
+        {
+            Console.WriteLine("* Överföring *");
+            Console.Write("Från kontonummer? ");
+            var fromAccount = Console.ReadLine();
+            Console.Write("Till kontonummer? ");
+            var toAccount = Console.ReadLine();
+            Console.Write("Summa? ");
+            var amount = Console.ReadLine();
+            Bank.TransferMoney(fromAccount, toAccount, amount);
+            AskForInput(true);
         }
 
         private void SearchCustomer()
@@ -179,6 +201,7 @@ namespace Uppgift3
 //4) Ta bort kund
 //5) Skapa konto
 //6) Ta bort konto
-//8) Insättning
+//7) Insättning
 //8) Uttag
 //9) Överföring
+//10) Ränta
