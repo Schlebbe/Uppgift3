@@ -224,46 +224,43 @@ namespace Uppgift3
             }
         }
 
-        public void ShowInfo(string query)
+        public void ShowInfo(string query)//Kaos på variablernamn
         {
             var custQuery = (from c in Customers
                              where c.CustomerNr == int.Parse(query)
                              select c).ToList().FirstOrDefault();
 
-            //foreach (var c in custQuery)
-            //{
-
             if (custQuery != null)
             {
-                PrintCustomerInfo(custQuery);
+                PrintCustomerInfo(custQuery, query);
             }
             else
             {
-                //Console.WriteLine("test!!!");
-                //Console.WriteLine(int.Parse(query));
                 var custQuery2 = (from c in Customers
                                   from a in Accounts
                                   where a.AccountNr == int.Parse(query) && a.Owner == c.CustomerNr
                                   select c).ToList().FirstOrDefault();
-                //Console.WriteLine(custQuery2.Count);
+
                 if (custQuery2 != null)
                 {
-                    PrintCustomerInfo(custQuery2);
+                    PrintCustomerInfo(custQuery2, custQuery2.CustomerNr.ToString());
 
                 }
-                else
-                {
-                    Console.WriteLine("Ej giltigt kund- eller kontonummer!");
-                }
-                //foreach (var c in custQuery2)
-                //{
-                //    Console.WriteLine("Test: "+c.CustomerNr);
-                //}
-
+                else { Console.WriteLine("Ej giltigt kund- eller kontonummer!"); }
             }
+        }
 
-
-            //}
+        private void PrintCustomerInfo(Customer custQuery, string query)
+        {
+            Console.WriteLine("\nKundnummer: " + custQuery.CustomerNr);
+            Console.WriteLine("Organisationsnummer: " + custQuery.OrgNr);
+            Console.WriteLine("Namn: " + custQuery.CompanyName);
+            Console.WriteLine("Adress: " + custQuery.Adress); //Kanske fler? Typ zip code
+            Console.WriteLine("Stad: " + custQuery.City);
+            Console.WriteLine("Region: " + custQuery.Region);
+            Console.WriteLine("Postnummer: " + custQuery.PostNr);
+            Console.WriteLine("Land: " + custQuery.Country);
+            Console.WriteLine("Telefonnummer: " + custQuery.PhoneNr);
 
             var accQuery = (from a in Accounts
                             from c in Customers
@@ -282,21 +279,6 @@ namespace Uppgift3
 
                 Console.WriteLine("Totalt saldo: " + totalBalance.ToString(CultureInfo.InvariantCulture) + " kr");
             }
-
-
-        }
-
-        private static void PrintCustomerInfo(Customer custQuery)
-        {
-            Console.WriteLine("\nKundnummer: " + custQuery.CustomerNr);
-            Console.WriteLine("Organisationsnummer: " + custQuery.OrgNr);
-            Console.WriteLine("Namn: " + custQuery.CompanyName);
-            Console.WriteLine("Adress: " + custQuery.Adress); //Kanske fler? Typ zip code
-            Console.WriteLine("Stad: " + custQuery.City);
-            Console.WriteLine("Region: " + custQuery.Region);
-            Console.WriteLine("Postnummer: " + custQuery.PostNr);
-            Console.WriteLine("Land: " + custQuery.Country);
-            Console.WriteLine("Telefonnummer: " + custQuery.PhoneNr);
         }
 
         public void SearchCustomer(string query)

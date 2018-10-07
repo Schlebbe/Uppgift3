@@ -1,4 +1,4 @@
-﻿*Done* Skriv ut statistik när systemet läser in eller sparar så det är lätt att se att det fungerar (se exempel).
+﻿Skriv ut statistik när systemet läser in eller sparar så det är lätt att se att det fungerar (se exempel).
 
 ******************************
 * VÄLKOMMEN TILL BANKAPP 1.0 *
@@ -16,9 +16,11 @@ Det ska också automatiskt skapas ett transaktionskonto med kunden som ägare.
 
 TA UT/ÖVERFÖRA ELLER SÄTTA IN MINUS BELOPP AAAAAAAAAAH
 
-
-
 Kontonummer syns inte om man söker på kontonummer.
+
+
+
+
 
 Byt namn på alla variabler så fredrik inte får aids när han läser min kod. Utropstecken eller punkter? Konsekvent med hur många \n det ska vara överallt.
 
