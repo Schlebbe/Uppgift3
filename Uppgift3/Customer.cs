@@ -8,19 +8,14 @@ namespace Uppgift3
 {
     class Customer
     {
-        public int CustomerNr { get; set; }
-        public string OrgNr { get; set; }
+        public int CustomerNumber { get; set; }
+        public string OrganisationNumber { get; set; }
         public string CompanyName { get; set; }
         public string Adress { get; set; }
         public string City { get; set; }
         public string Region { get; set; }
-        public string PostNr { get; set; }
+        public string PostNumber { get; set; }
         public string Country { get; set; }
-        public string PhoneNr { get; set; }
-
-        public Customer()
-        {
-        }
-
+        public string PhoneNumber { get; set; }
     }
 }

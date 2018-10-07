@@ -32,15 +32,15 @@ namespace Uppgift3
 
                     Customer customer = new Customer
                     {
-                        CustomerNr = int.Parse(cols[0]),
-                        OrgNr = cols[1],
+                        CustomerNumber = int.Parse(cols[0]),
+                        OrganisationNumber = cols[1],
                         CompanyName = cols[2],
                         Adress = cols[3],
                         City = cols[4],
                         Region = cols[5],
-                        PostNr = cols[6],
+                        PostNumber = cols[6],
                         Country = cols[7],
-                        PhoneNr = cols[8]
+                        PhoneNumber = cols[8]
                     };
 
                     bank.Customers.Add(customer);
@@ -59,7 +59,7 @@ namespace Uppgift3
 
                     Account account = new Account
                     {
-                        AccountNr = int.Parse(cols[0]),
+                        AccountNumber = int.Parse(cols[0]),
                         Owner = int.Parse(cols[1]),
                         Balance = decimal.Parse(cols[2], CultureInfo.InvariantCulture)
                     };
@@ -92,19 +92,15 @@ namespace Uppgift3
                 streamWriter.WriteLine(countOfCustomers);
                 foreach (var c in customers)
                 {
-                    //Console.WriteLine($"{c.CustomerNr};{c.OrgNr};{c.CompanyName};{c.Adress};{c.City};{c.Region};{c.PostNr};{c.Country};{c.PhoneNr}");
-                    string test = $"{c.CustomerNr};{c.OrgNr};{c.CompanyName};{c.Adress};{c.City};{c.Region};{c.PostNr};{c.Country};{c.PhoneNr}";
-                    streamWriter.WriteLine(test);
-                    //Console.WriteLine(test);
+                    string line = $"{c.CustomerNumber};{c.OrganisationNumber};{c.CompanyName};{c.Adress};{c.City};{c.Region};{c.PostNumber};{c.Country};{c.PhoneNumber}";
+                    streamWriter.WriteLine(line);
                 }
                 streamWriter.WriteLine(countOfAccounts);
                 foreach (var a in accounts)
                 {
-                    //Console.WriteLine($"{c.CustomerNr};{c.OrgNr};{c.CompanyName};{c.Adress};{c.City};{c.Region};{c.PostNr};{c.Country};{c.PhoneNr}");
-                    string test = $"{a.AccountNr};{a.Owner};{a.Balance.ToString(CultureInfo.InvariantCulture)}";
-                    streamWriter.WriteLine(test);
+                    string line = $"{a.AccountNumber};{a.Owner};{a.Balance.ToString(CultureInfo.InvariantCulture)}";
+                    streamWriter.WriteLine(line);
                     totaltBalance += a.Balance;
-                    //Console.WriteLine(test);
                 }
             }
             Console.WriteLine("Sparar till " + filename + "...");

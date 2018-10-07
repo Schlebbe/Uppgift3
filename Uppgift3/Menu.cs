@@ -88,41 +88,6 @@ namespace Uppgift3
             }
         }
 
-        private void WithdrawMoney()
-        {
-            Console.WriteLine("* Uttag *");
-            Console.Write("Kontonummer? ");
-            var accountNumber = Console.ReadLine();
-            Console.Write("Summa? ");
-            var amount = Console.ReadLine();
-            Bank.WithdrawMoney(accountNumber, amount);
-            AskForInput(true);
-        }
-
-        private void DepositMoney()
-        {
-            Console.WriteLine("* Insättning *");
-            Console.Write("Kontonummer? ");
-            var accountNumber = Console.ReadLine();
-            Console.Write("Summa? ");
-            var amount = Console.ReadLine();
-            Bank.DepositMoney(accountNumber, amount);
-            AskForInput(true);
-        }
-
-        private void TransferMoney()
-        {
-            Console.WriteLine("* Överföring *");
-            Console.Write("Från kontonummer? ");
-            var fromAccount = Console.ReadLine();
-            Console.Write("Till kontonummer? ");
-            var toAccount = Console.ReadLine();
-            Console.Write("Summa? ");
-            var amount = Console.ReadLine();
-            Bank.TransferMoney(fromAccount, toAccount, amount);
-            AskForInput(true);
-        }
-
         private void SearchCustomer()
         {
             Console.WriteLine("* Sök kund *");
@@ -130,7 +95,7 @@ namespace Uppgift3
             string query = Console.ReadLine().ToUpper();
             Bank.SearchCustomer(query);
             AskForInput(true);
-        }
+        } //1
 
         private void ShowCustomerInfo()
         {
@@ -139,7 +104,7 @@ namespace Uppgift3
             string query = Console.ReadLine();
             Bank.ShowInfo(query);
             AskForInput(true);
-        }
+        } //2
 
         private void AddCustomer()
         {
@@ -163,7 +128,7 @@ namespace Uppgift3
 
             Bank.AddCustomer(orgNr, compNr, adress, city, region, postNr, country, phoneNr);
             AskForInput(true);
-        }
+        } //3
 
         private void RemoveCustomer()
         {
@@ -172,7 +137,7 @@ namespace Uppgift3
             string query = Console.ReadLine();
             Bank.RemoveCustomer(query);
             AskForInput(true);
-        }
+        } //4
 
         private void AddAccount()
         {
@@ -180,7 +145,7 @@ namespace Uppgift3
             string query = Console.ReadLine();
             Bank.AddAccount(query);
             AskForInput(true);
-        }
+        } //5
 
         private void RemoveAccount()
         {
@@ -189,7 +154,42 @@ namespace Uppgift3
             string query = Console.ReadLine();
             Bank.RemoveAccount(query);
             AskForInput(true);
-        }
+        } //6
+
+        private void DepositMoney()
+        {
+            Console.WriteLine("* Insättning *");
+            Console.Write("Kontonummer? ");
+            var accountNumber = Console.ReadLine();
+            Console.Write("Summa? ");
+            var amount = Console.ReadLine();
+            Bank.DepositMoney(accountNumber, amount);
+            AskForInput(true);
+        } //7
+
+        private void WithdrawMoney()
+        {
+            Console.WriteLine("* Uttag *");
+            Console.Write("Kontonummer? ");
+            var accountNumber = Console.ReadLine();
+            Console.Write("Summa? ");
+            var amount = Console.ReadLine();
+            Bank.WithdrawMoney(accountNumber, amount);
+            AskForInput(true);
+        } //8
+
+        private void TransferMoney()
+        {
+            Console.WriteLine("* Överföring *");
+            Console.Write("Från kontonummer? ");
+            var fromAccount = Console.ReadLine();
+            Console.Write("Till kontonummer? ");
+            var toAccount = Console.ReadLine();
+            Console.Write("Summa? ");
+            var amount = Console.ReadLine();
+            Bank.TransferMoney(fromAccount, toAccount, amount);
+            AskForInput(true);
+        } //9
     }
 }
 

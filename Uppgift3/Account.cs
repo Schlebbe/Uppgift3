@@ -8,7 +8,7 @@ namespace Uppgift3
 {
     class Account
     {
-        public int AccountNr { get; set; }
+        public int AccountNumber { get; set; }
         public int Owner { get; set; }
         public decimal Balance { get; set; }
     }
