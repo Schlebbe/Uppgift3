@@ -101,7 +101,7 @@ namespace Uppgift3
                     ChangeDebtInterest();
                     break;
                 default:
-                    Console.WriteLine("Skriv en siffra mellan 0-14");
+                    Console.WriteLine("Skriv en siffra från 0-14");
                     AskForInput(true);
                     break;
             }
@@ -120,7 +120,7 @@ namespace Uppgift3
         {
             Console.WriteLine("* Visa kundbild *");
             Console.Write("Kundnummer eller kontonummer? ");
-            string query = Console.ReadLine();
+            string query = ParseQuery();
             Bank.ShowInfo(query);
             AskForInput(true);
         } //2
@@ -153,7 +153,7 @@ namespace Uppgift3
         {
             Console.WriteLine("* Ta bort kund *");
             Console.Write("Kundnummer? ");
-            string query = Console.ReadLine();
+            string query = ParseQuery();
             Bank.RemoveCustomer(query);
             AskForInput(true);
         } //4
@@ -161,9 +161,9 @@ namespace Uppgift3
         private void AddAccount()
         {
             Console.Write("Kundnummer? ");
-            string customerNumber = Console.ReadLine();
+            string customerNumber = ParseQuery();
             Console.Write("Räntesats? ");
-            string interest = Console.ReadLine();//MÅSTE VARA POSITIV!!!
+            string interest = ParseQuery();//MÅSTE VARA POSITIV!!!
             if (decimal.Parse(interest) > 0)
             {
                 Bank.AddAccount(customerNumber, interest);
@@ -180,8 +180,8 @@ namespace Uppgift3
         {
             Console.WriteLine("* Ta bort konto *");
             Console.Write("Kontonummer? ");
-            string query = Console.ReadLine();
-            Bank.RemoveAccount(query);
+            var account = ParseQuery();
+            Bank.RemoveAccount(account);
             AskForInput(true);
         } //6
 
@@ -189,9 +189,9 @@ namespace Uppgift3
         {
             Console.WriteLine("* Insättning *");
             Console.Write("Kontonummer? ");
-            var accountNumber = Console.ReadLine();
+            var accountNumber = ParseQuery();
             Console.Write("Summa? ");
-            var amount = Console.ReadLine();
+            var amount = ParseQuery();
             Bank.DepositMoney(accountNumber, amount);
             AskForInput(true);
         } //7
@@ -200,9 +200,9 @@ namespace Uppgift3
         {
             Console.WriteLine("* Uttag *");
             Console.Write("Kontonummer? ");
-            var accountNumber = Console.ReadLine();
+            var accountNumber = ParseQuery();
             Console.Write("Summa? ");
-            var amount = Console.ReadLine();
+            var amount = ParseQuery();
             Bank.WithdrawMoney(accountNumber, amount);
             AskForInput(true);
         } //8
@@ -211,11 +211,11 @@ namespace Uppgift3
         {
             Console.WriteLine("* Överföring *");
             Console.Write("Från kontonummer? ");
-            var fromAccount = Console.ReadLine();
+            var fromAccount = ParseQuery();
             Console.Write("Till kontonummer? ");
-            var toAccount = Console.ReadLine();
+            var toAccount = ParseQuery();
             Console.Write("Summa? ");
-            var amount = Console.ReadLine();
+            var amount = ParseQuery();
             Bank.TransferMoney(fromAccount, toAccount, amount);
             AskForInput(true);
         } //9
@@ -224,7 +224,7 @@ namespace Uppgift3
         {
             Console.WriteLine("* Visa transaktioner *");
             Console.Write("Kontonummer? ");
-            var account = Console.ReadLine();
+            var account = ParseQuery();
             Bank.ShowTransactions(account);
             AskForInput(true);
         } //10
@@ -233,9 +233,9 @@ namespace Uppgift3
         {
             Console.WriteLine("* Ändra räntesatsen *");
             Console.Write("Kontonummer? ");
-            var account = Console.ReadLine();
+            var account = ParseQuery();
             Console.Write("Nya räntesatsen? ");
-            var newInterest = Console.ReadLine();
+            var newInterest = ParseQuery();
             if (decimal.Parse(newInterest) > 0)
             {
                 Bank.ChangeInterest(account, newInterest);
@@ -252,7 +252,7 @@ namespace Uppgift3
         {
             Console.WriteLine("* Räkna ränta *");
             Bank.CalculateInterest();
-            Console.WriteLine("Räntesatsen har lagts till på alla konton.");
+            Console.WriteLine("\nRäntesatsen har lagts till på alla konton.");
             AskForInput(true);
         } //12
 
@@ -260,9 +260,9 @@ namespace Uppgift3
         {
             Console.WriteLine("* Ändra kredit *");
             Console.Write("Kontonummer? ");
-            var account = Console.ReadLine();
+            var account = ParseQuery();
             Console.Write("Nya krediten? ");
-            var newCredit = Console.ReadLine();
+            var newCredit = ParseQuery();
             Bank.ChangeCredit(account, newCredit);
             AskForInput(true);
         } //13
@@ -271,12 +271,23 @@ namespace Uppgift3
         {
             Console.WriteLine("* Ändra skuldräntan *");
             Console.Write("Kontonummer? ");
-            var account = Console.ReadLine();
+            var account = ParseQuery();
             Console.Write("Nya skuldräntan? ");
-            var newDebtInterest = Console.ReadLine();
+            var newDebtInterest = ParseQuery();
             Bank.ChangeDebtInterest(account, newDebtInterest);
             AskForInput(true);
         } //14
+
+        private string ParseQuery()
+        {
+            var query = Console.ReadLine();
+            if (!int.TryParse(query, out int result))
+            {
+                Console.Write("Måste vara ett heltal!\nFörsök igen: "); query = ParseQuery();
+            }
+
+            return query;
+        }
     }
 }
 
