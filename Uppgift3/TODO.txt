@@ -33,6 +33,10 @@ Lägg till ett transaktionsobjekt så det går att se historiken för dagens ins
 överföringar på respektive konto. Det ska inte gå att ändra saldo på ett konto utan att det skapas en
 transaktion.
 
+Lägg till stöd för sparränta på konton. Sparräntan är en årsränta och ska kunna anges och ändras per
+konto. Räntan måste vara positiv. Gör ett menyalternativ som räknar ut och lägger på dagens ränta på
+alla konton. En transaktion ska skapas på varje konto för insättningen av ränta.
+
 
 
 
@@ -44,10 +48,6 @@ varje konton. Kreditgräns och skuldränta ska kunna ändras per konto. Om ett k
 på 10000 kr så kan pengar tas ut och överföras till saldot på konto är som lägst -10000 kronor.
 Komplettera rutinen för ränteberäkning med att lägga på skuldränta på konton där saldot är under noll.
 När skuldränta debiteras kan saldot gå under kreditgränsen.
-
-Lägg till stöd för sparränta på konton. Sparräntan är en årsränta och ska kunna anges och ändras per
-konto. Räntan måste vara positiv. Gör ett menyalternativ som räknar ut och lägger på dagens ränta på
-alla konton. En transaktion ska skapas på varje konto för insättningen av ränta.
 
 Skapa Unit Tester som verifierar att uttag och överföringar fungerar med checkkredit och räntan
 beräknas korrekt.

@@ -80,7 +80,9 @@ namespace Uppgift3
                 PhoneNumber = phoneNumber
             };
             Customers.Add(customer);
-            AddAccount(CurrentNr.ToString());
+            Console.Write("Räntesats? ");
+            string interest = Console.ReadLine();
+            AddAccount(CurrentNr.ToString(), interest);
             Console.WriteLine("En kund har lagts till!");
         }//3
 
@@ -128,7 +130,7 @@ namespace Uppgift3
             }
         }//4
 
-        public void AddAccount(string query)
+        public void AddAccount(string query, string interest)
         {
             var accQuery = (from a in Accounts
                             orderby a.AccountNumber descending
@@ -147,7 +149,8 @@ namespace Uppgift3
                 {
                     AccountNumber = CurrentNr,
                     Owner = custQuery.CustomerNumber,
-                    Balance = 0
+                    Balance = 0,
+                    Interest = decimal.Parse(interest)
                 };
 
                 Accounts.Add(account);
@@ -298,11 +301,29 @@ namespace Uppgift3
                     {
                         Console.WriteLine($"*Överföring* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {t.FromAccount} och {t.ToAccount} Belopp: {t.Transfer.ToString(CultureInfo.InvariantCulture)} Saldo: {accountQuery.Balance.ToString(CultureInfo.InvariantCulture)}");
                     }
+                    else if (t.Interest > 0)
+                    {
+                        Console.Write($"*Ränta* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {accountQuery.AccountNumber} Belopp: {t.Interest.ToString(CultureInfo.InvariantCulture)} Saldo: {accountQuery.Balance.ToString(CultureInfo.InvariantCulture)}\n");
+                    }
 
                 }
             }
             else { Console.WriteLine("Finns inga transaktioner!"); }
         }//10
+
+        public void CalculateInterest()
+        {
+            foreach (var a in Accounts)
+            {
+                a.Balance += Math.Round(a.Balance * (a.Interest / 100 / 365), 5);
+                var transaction = new Transaction()
+                {
+                    Interest = Math.Round(a.Balance * (a.Interest / 100 / 365), 5)
+                };
+                a.Transactions.Add(transaction);
+                SaveTransaction(a.Transactions.LastOrDefault(), a, null);
+            }
+        }//11
 
         private void PrintCustomerInfo(Customer custQuery, string query)
         {
@@ -340,6 +361,8 @@ namespace Uppgift3
             var datahandler = new DataHandler();
             datahandler.SaveTransaction(transaction, account, toAccountQuery);
         }//7 8 9
+
+
     }
 }
 

@@ -2,3 +2,23 @@
 *Uttag* Datum: 2018108-1252 Konton: 13130 Belopp: 1000 Saldo: 4807.00
 *Överföring* Datum: 2018108-1252 Konton: 13130 och 13128 Belopp: 1000 Saldo: 3807.00
 *Överföring* Datum: 2018108-1252 Konton: 13128 och 13130 Belopp: 1000 Saldo: 1392.20
+*Insättning* Datum: 2018108-1318 Konton: 13131 Belopp: 1000 Saldo: 1000
+*Insättning* Datum: 2018108-1320 Konton: 13131 Belopp: 1000 Saldo: 1000
+
+*Insättning* Datum: 2018108-1332 Konton: 13131 Belopp: 1000 Saldo: 1000
+*Ränta* Datum: 2018108-1332 Konton: 13131 Belopp: 1.3717395383749296303246387992 Saldo: 1001.3698630136986301369863014
+*Insättning* Datum: 2018108-1334 Konton: 13131 Belopp: 1000 Saldo: 1000
+*Ränta* Datum: 2018108-1334 Konton: 13131 Belopp: 1.3717395383749296303246387992 Saldo: 1001.3698630136986301369863014
+*Insättning* Datum: 2018108-1337 Konton: 13131 Belopp: 1000 Saldo: 1000
+*Ränta* Datum: 2018108-1337 Konton: 13131 Belopp: 0.2 Saldo: 1000.1917808219178082191780822
+*Insättning* Datum: 2018108-1338 Konton: 13131 Belopp: 1000 Saldo: 1000
+*Ränta* Datum: 2018108-1338 Konton: 13131 Belopp: 1.37174 Saldo: 1001.36986
+*Insättning* Datum: 2018108-1346 Konton: 13131 Belopp: 1000 Saldo: 1000
+*Insättning* Datum: 2018108-1346 Konton: 13132 Belopp: 1000 Saldo: 1000
+*Insättning* Datum: 2018108-1346 Konton: 13133 Belopp: 1000 Saldo: 1000
+*Insättning* Datum: 2018108-1347 Konton: 13131 Belopp: 1000 Saldo: 1000
+*Insättning* Datum: 2018108-1347 Konton: 13132 Belopp: 1000 Saldo: 1000
+*Insättning* Datum: 2018108-1347 Konton: 13133 Belopp: 1000 Saldo: 1000
+*Ränta* Datum: 2018108-1347 Konton: 13131 Belopp: 0.64425 Saldo: 1000.64384
+*Ränta* Datum: 2018108-1347 Konton: 13132 Belopp: 0.70049 Saldo: 1000.7000
+*Ränta* Datum: 2018108-1347 Konton: 13133 Belopp: 1.37174 Saldo: 1001.36986

@@ -10,7 +10,8 @@ namespace Uppgift3
     {
         public decimal Deposit { get; set; }
         public decimal Withdraw { get; set; }
-        public decimal Transfer { get; set; } //kanske som en lista som innehåller vilka konton och belopp?
+        public decimal Transfer { get; set; }
+        public decimal Interest { get; set; }
         public DateTime DateTime { get; set; } = DateTime.Now;
         public int FromAccount { get; set; }
         public int ToAccount { get; set; }

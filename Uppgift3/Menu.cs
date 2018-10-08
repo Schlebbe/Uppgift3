@@ -24,7 +24,8 @@ namespace Uppgift3
             if (!onlyFirst)
             {
                 Console.WriteLine("HUVUDMENY");
-                Console.WriteLine("0) Avsluta och spara\n" + "1) Sök kund\n" +
+                Console.WriteLine("0) Avsluta och spara\n" +
+                    "1) Sök kund\n" +
                     "2) Visa kundbild\n" +
                     "3) Skapa kund\n" +
                     "4) Ta bort kund\n" +
@@ -35,7 +36,7 @@ namespace Uppgift3
                     "9) Överföring\n" +
                     "10) Visa transaktioner\n" +
                     "11) Ränta\n");
-                Console.Write("\n> ");
+                Console.Write("> ");
             }
             else { Console.Write("\n> "); }
 
@@ -85,6 +86,7 @@ namespace Uppgift3
                     ShowTransactions();
                     break;
                 case 11:
+                    CalculateInterest();
                     break;
                 default:
                     Console.WriteLine("Skriv en siffra mellan 0-11");
@@ -147,8 +149,18 @@ namespace Uppgift3
         private void AddAccount()
         {
             Console.Write("Kundnummer? ");
-            string query = Console.ReadLine();
-            Bank.AddAccount(query);
+            string customerNumber = Console.ReadLine();
+            Console.Write("Räntesats? ");
+            string interest = Console.ReadLine();//MÅSTE VARA POSITIV!!!
+            if (decimal.Parse(interest) > 0)
+            {
+                Bank.AddAccount(customerNumber, interest);
+            }
+            else
+            {
+                Console.WriteLine("Räntesatsen måste vara positiv, försök igen.");
+                AddAccount();
+            }
             AskForInput(true);
         } //5
 
@@ -204,6 +216,12 @@ namespace Uppgift3
             Bank.ShowTransactions(account);
             AskForInput(true);
         } //10
+
+        private void CalculateInterest()
+        {
+            Bank.CalculateInterest();
+            AskForInput(true);
+        } //11
     }
 }
 

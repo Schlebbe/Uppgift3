@@ -132,6 +132,10 @@ namespace Uppgift3
                 {
                     streamWriter.Write($"*Överföring* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {account1.AccountNumber} och {account2.AccountNumber} Belopp: {transaction.Transfer.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}\n");
                 }
+                else if (transaction.Interest > 0)
+                {
+                    streamWriter.Write($"*Ränta* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {account1.AccountNumber} Belopp: {transaction.Interest.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}\n");
+                }
             }
         }
 
