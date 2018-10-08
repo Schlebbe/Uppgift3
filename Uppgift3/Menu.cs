@@ -35,7 +35,10 @@ namespace Uppgift3
                     "8) Uttag\n" +
                     "9) Överföring\n" +
                     "10) Visa transaktioner\n" +
-                    "11) Ränta\n");
+                    "11) Ändra ränta\n" +
+                    "12) Räkna ränta\n" +
+                    "13) Ändra kredit\n" +
+                    "14) Ändra skuldränta\n");
                 Console.Write("> ");
             }
             else { Console.Write("\n> "); }
@@ -86,10 +89,19 @@ namespace Uppgift3
                     ShowTransactions();
                     break;
                 case 11:
+                    ChangeInterest();
+                    break;
+                case 12:
                     CalculateInterest();
                     break;
+                case 13:
+                    ChangeCredit();
+                    break;
+                case 14:
+                    ChangeDebtInterest();
+                    break;
                 default:
-                    Console.WriteLine("Skriv en siffra mellan 0-11");
+                    Console.WriteLine("Skriv en siffra mellan 0-14");
                     AskForInput(true);
                     break;
             }
@@ -217,11 +229,54 @@ namespace Uppgift3
             AskForInput(true);
         } //10
 
-        private void CalculateInterest()
+        private void ChangeInterest()
         {
-            Bank.CalculateInterest();
+            Console.WriteLine("* Ändra räntesatsen *");
+            Console.Write("Kontonummer? ");
+            var account = Console.ReadLine();
+            Console.Write("Nya räntesatsen? ");
+            var newInterest = Console.ReadLine();
+            if (decimal.Parse(newInterest) > 0)
+            {
+                Bank.ChangeInterest(account, newInterest);
+            }
+            else
+            {
+                Console.WriteLine("Räntesatsen måste vara positiv, försök igen.");
+                ChangeInterest();
+            }
             AskForInput(true);
         } //11
+
+        private void CalculateInterest()
+        {
+            Console.WriteLine("* Räkna ränta *");
+            Bank.CalculateInterest();
+            Console.WriteLine("Räntesatsen har lagts till på alla konton.");
+            AskForInput(true);
+        } //12
+
+        private void ChangeCredit()
+        {
+            Console.WriteLine("* Ändra kredit *");
+            Console.Write("Kontonummer? ");
+            var account = Console.ReadLine();
+            Console.Write("Nya krediten? ");
+            var newCredit = Console.ReadLine();
+            Bank.ChangeCredit(account, newCredit);
+            AskForInput(true);
+        } //13
+
+        private void ChangeDebtInterest()
+        {
+            Console.WriteLine("* Ändra skuldräntan *");
+            Console.Write("Kontonummer? ");
+            var account = Console.ReadLine();
+            Console.Write("Nya skuldräntan? ");
+            var newDebtInterest = Console.ReadLine();
+            Bank.ChangeDebtInterest(account, newDebtInterest);
+            AskForInput(true);
+        } //14
     }
 }
 

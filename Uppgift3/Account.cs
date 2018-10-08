@@ -13,5 +13,7 @@ namespace Uppgift3
         public decimal Balance { get; set; }
         public List<Transaction> Transactions { get; set; } = new List<Transaction>();
         public decimal Interest { get; set; }
+        public decimal Overdraft { get; set; }
+        public decimal DebtInterest { get; set; }
     }
 }

@@ -12,6 +12,7 @@ namespace Uppgift3
         public decimal Withdraw { get; set; }
         public decimal Transfer { get; set; }
         public decimal Interest { get; set; }
+        public decimal DebtInterest { get; set; }
         public DateTime DateTime { get; set; } = DateTime.Now;
         public int FromAccount { get; set; }
         public int ToAccount { get; set; }

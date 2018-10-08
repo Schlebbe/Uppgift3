@@ -213,7 +213,7 @@ namespace Uppgift3
 
             if (decimal.Parse(amount) > 0)
             {
-                if ((accountQuery.Balance - decimal.Parse(amount)) >= 0)
+                if ((accountQuery.Balance - decimal.Parse(amount)) >= -accountQuery.Overdraft)
                 {
                     accountQuery.Balance -= decimal.Parse(amount);
                     Console.WriteLine(amount.ToString(CultureInfo.InvariantCulture) + " kr har tagits ut från konto " + accountQuery.AccountNumber + ".");
@@ -240,6 +240,7 @@ namespace Uppgift3
             var fromAccountQuery = (from a in Accounts
                                     where a.AccountNumber == int.Parse(fromAccount)
                                     select a).ToList().FirstOrDefault();
+
             var toAccountQuery = (from a in Accounts
                                   where a.AccountNumber == int.Parse(toAccount)
                                   select a).ToList().FirstOrDefault();
@@ -248,7 +249,7 @@ namespace Uppgift3
             {
                 if (!(fromAccountQuery.AccountNumber == toAccountQuery.AccountNumber))
                 {
-                    if (fromAccountQuery.Balance >= decimal.Parse(amount))
+                    if (fromAccountQuery.Balance >= decimal.Parse(amount) - fromAccountQuery.Overdraft)
                     {
                         fromAccountQuery.Balance -= decimal.Parse(amount);
                         toAccountQuery.Balance += decimal.Parse(amount);
@@ -305,25 +306,74 @@ namespace Uppgift3
                     {
                         Console.Write($"*Ränta* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {accountQuery.AccountNumber} Belopp: {t.Interest.ToString(CultureInfo.InvariantCulture)} Saldo: {accountQuery.Balance.ToString(CultureInfo.InvariantCulture)}\n");
                     }
+                    else if (t.DebtInterest < 0)
+                    {
+                        Console.Write($"*Skuldränta* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {accountQuery.AccountNumber} Belopp: {t.DebtInterest.ToString(CultureInfo.InvariantCulture)} Saldo: {accountQuery.Balance.ToString(CultureInfo.InvariantCulture)}\n");
+                    }
 
                 }
             }
             else { Console.WriteLine("Finns inga transaktioner!"); }
         }//10
 
+        public void ChangeInterest(string accountNumber, string newInterest)
+        {
+            var accountQuery = (from a in Accounts
+                                where a.AccountNumber == int.Parse(accountNumber)
+                                select a).ToList().FirstOrDefault();
+
+            accountQuery.Interest = decimal.Parse(newInterest);
+            Console.WriteLine($"Räntesatsen för {accountQuery.AccountNumber} har ändrats till {accountQuery.Interest}%");
+        }//11
+
         public void CalculateInterest()
         {
             foreach (var a in Accounts)
             {
-                a.Balance += Math.Round(a.Balance * (a.Interest / 100 / 365), 5);
-                var transaction = new Transaction()
+                if (a.Balance < 0)
                 {
-                    Interest = Math.Round(a.Balance * (a.Interest / 100 / 365), 5)
-                };
-                a.Transactions.Add(transaction);
-                SaveTransaction(a.Transactions.LastOrDefault(), a, null);
+                    a.Balance += Math.Round(a.Balance * (a.DebtInterest / 100 / 365), 5);
+                    var transaction = new Transaction()
+                    {
+                        DebtInterest = Math.Round(a.Balance * (a.DebtInterest / 100 / 365), 5)
+                    };
+                    a.Transactions.Add(transaction);
+                    SaveTransaction(a.Transactions.LastOrDefault(), a, null);
+                }
+                else
+                {
+                    a.Balance += Math.Round(a.Balance * (a.Interest / 100 / 365), 5);
+                    var transaction = new Transaction()
+                    {
+                        Interest = Math.Round(a.Balance * (a.Interest / 100 / 365), 5)
+                    };
+                    a.Transactions.Add(transaction);
+                    SaveTransaction(a.Transactions.LastOrDefault(), a, null);
+                }
             }
-        }//11
+        }//12
+
+        public void ChangeCredit(string account, string newCredit)
+        {
+            var accountQuery = (from a in Accounts
+                                where a.AccountNumber == int.Parse(account)
+                                select a).ToList().FirstOrDefault();
+
+            accountQuery.Overdraft = decimal.Parse(newCredit);
+
+            Console.WriteLine($"Krediten har ändrats till {newCredit}");
+        }//13
+
+        public void ChangeDebtInterest(string account, string newDebtInterest)
+        {
+            var accountQuery = (from a in Accounts
+                                where a.AccountNumber == int.Parse(account)
+                                select a).ToList().FirstOrDefault();
+
+            accountQuery.DebtInterest = decimal.Parse(newDebtInterest);
+
+            Console.WriteLine($"Skuldräntan har ändrats till {newDebtInterest}");
+        }//14
 
         private void PrintCustomerInfo(Customer custQuery, string query)
         {
