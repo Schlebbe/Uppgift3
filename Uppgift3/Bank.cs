@@ -32,7 +32,7 @@ namespace Uppgift3
             }
         }//1
 
-        public void ShowInfo(string query)//Kaos på variablernamn
+        public void ShowInfo(string query)
         {
             var customerQuery = (from c in Customers
                                  where c.CustomerNumber == int.Parse(query)
@@ -44,14 +44,14 @@ namespace Uppgift3
             }
             else
             {
-                var customerQuery2 = (from c in Customers
+                var accountQuery = (from c in Customers
                                       from a in Accounts
                                       where a.AccountNumber == int.Parse(query) && a.Owner == c.CustomerNumber
                                       select c).ToList().FirstOrDefault();
 
-                if (customerQuery2 != null)
+                if (accountQuery != null)
                 {
-                    PrintCustomerInfo(customerQuery2, customerQuery2.CustomerNumber.ToString());
+                    PrintCustomerInfo(accountQuery, accountQuery.CustomerNumber.ToString());
 
                 }
                 else { Console.WriteLine("Ej giltigt kund- eller kontonummer!"); }
@@ -80,8 +80,6 @@ namespace Uppgift3
                 PhoneNumber = phoneNumber
             };
             Customers.Add(customer);
-            //Console.Write("Räntesats: ");
-            //string interest = Console.ReadLine();
             AddAccount(CurrentNumber.ToString(), "0");
             Console.WriteLine("En kund har lagts till!");
         }//3
@@ -101,19 +99,19 @@ namespace Uppgift3
                                     select a).ToList();
 
                 bool validCustomer = false;
-                bool haveAcc = false;
+                bool haveAccount = false;
                 foreach (var c in customerQuery)
                 {
                     foreach (var a in accountQuery)
                     {
                         if (a.Owner == c.CustomerNumber)
                         {
-                            haveAcc = true;
+                            haveAccount = true;
                             break;
                         }
                     }
 
-                    if (!haveAcc)
+                    if (!haveAccount)
                     {
                         Customers.RemoveAt(Customers.IndexOf(c));
                         Console.WriteLine("Kund borttagen!");
@@ -185,6 +183,7 @@ namespace Uppgift3
             var accountQuery = (from a in Accounts
                                 where a.AccountNumber == int.Parse(accountNumber)
                                 select a).ToList().FirstOrDefault();
+
             if (accountQuery != null)
             {
                 if (decimal.Parse(amount) > 0)
@@ -194,14 +193,10 @@ namespace Uppgift3
                     var test = new Transaction()
                     {
                         Deposit = decimal.Parse(amount)
-                        //Withdraw = decimal.Parse(amount)
-                        //Transfer = decimal.Parse(amount)
 
                     };
-                    //Console.WriteLine(accountQuery.Transactions.Count());
                     accountQuery.Transactions.Add(test);
                     SaveTransaction(accountQuery.Transactions.LastOrDefault(), accountQuery, null);
-                    //Console.WriteLine(accountQuery.Transactions[0].Deposit);
                 }
                 else { Console.WriteLine("\nEj giltigt belopp!"); }
             }
@@ -214,6 +209,7 @@ namespace Uppgift3
             var accountQuery = (from a in Accounts
                                 where a.AccountNumber == int.Parse(accountNumber)
                                 select a).ToList().FirstOrDefault();
+
             if (accountQuery != null)
             {
                 if (decimal.Parse(amount) > 0)
@@ -224,15 +220,11 @@ namespace Uppgift3
                         Console.WriteLine("\n" + amount.ToString(CultureInfo.InvariantCulture) + " kr har tagits ut från konto " + accountQuery.AccountNumber + "!");
                         var test = new Transaction()
                         {
-                            //Deposit = decimal.Parse(amount)
                             Withdraw = decimal.Parse(amount)
-                            //Transfer = decimal.Parse(amount)
 
                         };
-                        //Console.WriteLine(accountQuery.Transactions.Count());
                         accountQuery.Transactions.Add(test);
                         SaveTransaction(accountQuery.Transactions.LastOrDefault(), accountQuery, null);
-                        //Console.WriteLine(accountQuery.Transactions[0].Deposit);
 
                     }
                     else { Console.WriteLine("\nFör lite saldo på kontot!"); }
@@ -301,26 +293,27 @@ namespace Uppgift3
                     foreach (var t in accountQuery.Transactions)
                     {
                         var dt = t.DateTime;
+                        var currentDateTime = dt.ToString("yyyyMMdd") + "-" + dt.ToString("HHmmss");
 
                         if (t.Deposit > 0)
                         {
-                            Console.WriteLine($"*Insättning* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {accountQuery.AccountNumber} Belopp: {t.Deposit.ToString(CultureInfo.InvariantCulture)} Saldo: {accountQuery.Balance.ToString(CultureInfo.InvariantCulture)}");
+                            Console.WriteLine($"*Insättning* Datum: {currentDateTime} Konton: {accountQuery.AccountNumber} Belopp: {t.Deposit.ToString(CultureInfo.InvariantCulture)} Saldo: {accountQuery.Balance.ToString(CultureInfo.InvariantCulture)}");
                         }
                         else if (t.Withdraw > 0)
                         {
-                            Console.WriteLine($"*Uttag* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {accountQuery.AccountNumber} Belopp: {t.Withdraw.ToString(CultureInfo.InvariantCulture)} Saldo: {accountQuery.Balance.ToString(CultureInfo.InvariantCulture)}");
+                            Console.WriteLine($"*Uttag* Datum: {currentDateTime} Konton: {accountQuery.AccountNumber} Belopp: {t.Withdraw.ToString(CultureInfo.InvariantCulture)} Saldo: {accountQuery.Balance.ToString(CultureInfo.InvariantCulture)}");
                         }
                         else if (t.Transfer > 0)
                         {
-                            Console.WriteLine($"*Överföring* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {t.FromAccount} och {t.ToAccount} Belopp: {t.Transfer.ToString(CultureInfo.InvariantCulture)} Saldo: {accountQuery.Balance.ToString(CultureInfo.InvariantCulture)}");
+                            Console.WriteLine($"*Överföring* Datum: {currentDateTime} Konton: {t.FromAccount} och {t.ToAccount} Belopp: {t.Transfer.ToString(CultureInfo.InvariantCulture)} Saldo: {accountQuery.Balance.ToString(CultureInfo.InvariantCulture)}");
                         }
                         else if (t.Interest > 0)
                         {
-                            Console.Write($"*Ränta* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {accountQuery.AccountNumber} Belopp: {t.Interest.ToString(CultureInfo.InvariantCulture)} Saldo: {accountQuery.Balance.ToString(CultureInfo.InvariantCulture)}\n");
+                            Console.Write($"*Ränta* Datum: {currentDateTime} Konton: {accountQuery.AccountNumber} Belopp: {t.Interest.ToString(CultureInfo.InvariantCulture)} Saldo: {accountQuery.Balance.ToString(CultureInfo.InvariantCulture)}\n");
                         }
                         else if (t.DebtInterest < 0)
                         {
-                            Console.Write($"*Skuldränta* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {accountQuery.AccountNumber} Belopp: {t.DebtInterest.ToString(CultureInfo.InvariantCulture)} Saldo: {accountQuery.Balance.ToString(CultureInfo.InvariantCulture)}\n");
+                            Console.Write($"*Skuldränta* Datum: {currentDateTime} Konton: {accountQuery.AccountNumber} Belopp: {t.DebtInterest.ToString(CultureInfo.InvariantCulture)} Saldo: {accountQuery.Balance.ToString(CultureInfo.InvariantCulture)}\n");
                         }
 
                     }
@@ -405,7 +398,7 @@ namespace Uppgift3
             Console.WriteLine("\nKundnummer: " + custQuery.CustomerNumber);
             Console.WriteLine("Organisationsnummer: " + custQuery.OrganisationNumber);
             Console.WriteLine("Namn: " + custQuery.CompanyName);
-            Console.WriteLine("Adress: " + custQuery.Adress); //Kanske fler? Typ zip code
+            Console.WriteLine("Adress: " + custQuery.Adress);
             Console.WriteLine("Stad: " + custQuery.City);
             Console.WriteLine("Region: " + custQuery.Region);
             Console.WriteLine("Postnummer: " + custQuery.ZIPCode);

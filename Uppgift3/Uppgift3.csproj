@@ -56,10 +56,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Data\bankdata-small.txt" />
+    <Content Include="Data\bankdata.txt" />
+    <Content Include="Data\README.txt" />
+    <Content Include="Data\transaktionslogg.txt" />
     <Content Include="TODO.txt" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

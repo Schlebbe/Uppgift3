@@ -9,6 +9,8 @@ namespace Uppgift3
     class Menu
     {
         public Bank Bank { get; set; }
+        private const bool nonDecimalData = true;
+        private const bool decimalData = false;
 
         public Menu(Bank bank)
         {
@@ -120,7 +122,7 @@ namespace Uppgift3
         {
             Console.WriteLine("* Visa kundbild *");
             Console.Write("Kundnummer eller kontonummer? ");
-            string query = ParseQuery();
+            string query = ParseQuery(nonDecimalData);
             Bank.ShowInfo(query);
             AskForInput(true);
         } //2
@@ -153,7 +155,7 @@ namespace Uppgift3
         {
             Console.WriteLine("* Ta bort kund *");
             Console.Write("Kundnummer? ");
-            string query = ParseQuery();
+            string query = ParseQuery(nonDecimalData);
             Bank.RemoveCustomer(query);
             AskForInput(true);
         } //4
@@ -161,9 +163,9 @@ namespace Uppgift3
         private void AddAccount()
         {
             Console.Write("Kundnummer? ");
-            string customerNumber = ParseQuery();
+            string customerNumber = ParseQuery(nonDecimalData);
             Console.Write("Räntesats? ");
-            string interest = ParseQuery();//MÅSTE VARA POSITIV!!!
+            string interest = ParseQuery(decimalData);//MÅSTE VARA POSITIV!!!
             if (decimal.Parse(interest) > 0)
             {
                 Bank.AddAccount(customerNumber, interest);
@@ -180,7 +182,7 @@ namespace Uppgift3
         {
             Console.WriteLine("* Ta bort konto *");
             Console.Write("Kontonummer? ");
-            var account = ParseQuery();
+            var account = ParseQuery(nonDecimalData);
             Bank.RemoveAccount(account);
             AskForInput(true);
         } //6
@@ -189,9 +191,9 @@ namespace Uppgift3
         {
             Console.WriteLine("* Insättning *");
             Console.Write("Kontonummer? ");
-            var accountNumber = ParseQuery();
-            Console.Write("Summa? ");
-            var amount = ParseQuery();
+            var accountNumber = ParseQuery(nonDecimalData);
+            Console.Write("Belopp? ");
+            var amount = ParseQuery(decimalData);
             Bank.DepositMoney(accountNumber, amount);
             AskForInput(true);
         } //7
@@ -200,9 +202,9 @@ namespace Uppgift3
         {
             Console.WriteLine("* Uttag *");
             Console.Write("Kontonummer? ");
-            var accountNumber = ParseQuery();
-            Console.Write("Summa? ");
-            var amount = ParseQuery();
+            var accountNumber = ParseQuery(nonDecimalData);
+            Console.Write("Belopp? ");
+            var amount = ParseQuery(decimalData);
             Bank.WithdrawMoney(accountNumber, amount);
             AskForInput(true);
         } //8
@@ -211,11 +213,11 @@ namespace Uppgift3
         {
             Console.WriteLine("* Överföring *");
             Console.Write("Från kontonummer? ");
-            var fromAccount = ParseQuery();
+            var fromAccount = ParseQuery(nonDecimalData);
             Console.Write("Till kontonummer? ");
-            var toAccount = ParseQuery();
-            Console.Write("Summa? ");
-            var amount = ParseQuery();
+            var toAccount = ParseQuery(nonDecimalData);
+            Console.Write("Belopp? ");
+            var amount = ParseQuery(decimalData);
             Bank.TransferMoney(fromAccount, toAccount, amount);
             AskForInput(true);
         } //9
@@ -224,7 +226,7 @@ namespace Uppgift3
         {
             Console.WriteLine("* Visa transaktioner *");
             Console.Write("Kontonummer? ");
-            var account = ParseQuery();
+            var account = ParseQuery(nonDecimalData);
             Bank.ShowTransactions(account);
             AskForInput(true);
         } //10
@@ -233,9 +235,9 @@ namespace Uppgift3
         {
             Console.WriteLine("* Ändra räntesatsen *");
             Console.Write("Kontonummer? ");
-            var account = ParseQuery();
+            var account = ParseQuery(nonDecimalData);
             Console.Write("Nya räntesatsen? ");
-            var newInterest = ParseQuery();
+            var newInterest = ParseQuery(decimalData);
             if (decimal.Parse(newInterest) >= 0)
             {
                 Bank.ChangeInterest(account, newInterest);
@@ -260,9 +262,9 @@ namespace Uppgift3
         {
             Console.WriteLine("* Ändra kredit *");
             Console.Write("Kontonummer? ");
-            var account = ParseQuery();
+            var account = ParseQuery(nonDecimalData);
             Console.Write("Nya krediten? ");
-            var newCredit = ParseQuery();
+            var newCredit = ParseQuery(decimalData);
             if (decimal.Parse(newCredit) >= 0)
             {
                 Bank.ChangeCredit(account, newCredit);
@@ -272,7 +274,6 @@ namespace Uppgift3
                 Console.WriteLine("Krediten måste vara positiv, försök igen.");
                 ChangeCredit();
             }
-            Bank.ChangeCredit(account, newCredit);
             AskForInput(true);
         } //13
 
@@ -280,9 +281,9 @@ namespace Uppgift3
         {
             Console.WriteLine("* Ändra skuldräntan *");
             Console.Write("Kontonummer? ");
-            var account = ParseQuery();
+            var account = ParseQuery(nonDecimalData);
             Console.Write("Nya skuldräntan? ");
-            var newDebtInterest = ParseQuery();
+            var newDebtInterest = ParseQuery(decimalData);
             if (decimal.Parse(newDebtInterest) >= 0)
             {
                 Bank.ChangeDebtInterest(account, newDebtInterest);
@@ -292,17 +293,29 @@ namespace Uppgift3
                 Console.WriteLine("Skuldräntan måste vara positiv, försök igen.");
                 ChangeDebtInterest();
             }
-            
+
             AskForInput(true);
         } //14
 
-        private string ParseQuery()
+        private string ParseQuery(bool intOrDecimal)
         {
             var query = Console.ReadLine();
-            if (!decimal.TryParse(query, out decimal result))
+
+            if (intOrDecimal)
             {
-                Console.Write("Måste vara ett heltal!\nFörsök igen: "); query = ParseQuery();
+                if (!int.TryParse(query, out int result))
+                {
+                    Console.Write("Måste vara ett heltal!\nFörsök igen: "); query = ParseQuery(true);
+                }
             }
+            else
+            {
+                if (!decimal.TryParse(query, out decimal result))
+                {
+                    Console.Write("Måste vara numerisk!\nFörsök igen: "); query = ParseQuery(false);
+                }
+            }
+
 
             return query;
         }

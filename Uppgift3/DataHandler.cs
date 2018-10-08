@@ -21,7 +21,7 @@ namespace Uppgift3
             Console.WriteLine("Läser in " + fileName + "...");
             var bank = new Bank();
 
-            using (StreamReader reader = new StreamReader(path))//Lägg till try catch
+            using (StreamReader reader = new StreamReader(path))
             {
                 int countOfCustomers = int.Parse(reader.ReadLine());
 
@@ -53,9 +53,6 @@ namespace Uppgift3
                 {
                     string line = reader.ReadLine();
                     string[] cols = line.Split(';');
-                    //Console.WriteLine(line);
-                    //Console.WriteLine(cols[0]);
-
 
                     Account account = new Account
                     {
@@ -76,17 +73,13 @@ namespace Uppgift3
 
         public void SaveToFile(List<Customer> customers, List<Account> accounts)
         {
-            //string pathDator = @"C:\Users\sebastian.TEMTRON\Source\Repos\Uppgift3\Uppgift3\";
-            //string pathLaptop = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
             string defaultPath = @"..\..\Data\";
             DateTime dt = DateTime.Now;
             string filename = dt.ToString("yyyyMMdd") + "-" + dt.ToString("HHmmss") + ".txt";
             defaultPath = Path.Combine(defaultPath, filename);
-            //Console.WriteLine("Path to my file: " + pathDator);
             int countOfCustomers = customers.Count();
             int countOfAccounts = accounts.Count();
             decimal totaltBalance = 0;
-            //using (FileStream fs = new FileStream(path, FileMode.Append))
 
             using (StreamWriter streamWriter = new StreamWriter(defaultPath))
             {
@@ -113,10 +106,9 @@ namespace Uppgift3
 
         public void SaveTransaction(Transaction transaction, Account account1, Account account2)
         {
-            //string pathDator = @"C:\Users\sebastian.TEMTRON\Source\Repos\Uppgift3\Uppgift3\";
-            //string pathLaptop = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
             string defaultPath = @"..\..\Data\";
             DateTime dt = transaction.DateTime;
+            var currentDateTime = dt.ToString("yyyyMMdd") + "-" + dt.ToString("HHmmss");
             string filename = "transaktionslogg.txt";
             defaultPath = Path.Combine(defaultPath, filename);
 
@@ -124,19 +116,19 @@ namespace Uppgift3
             {
                 if (transaction.Deposit > 0)
                 {
-                    streamWriter.Write($"*Insättning* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {account1.AccountNumber} Belopp: {transaction.Deposit.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}\n");
+                    streamWriter.Write($"*Insättning* Datum: {currentDateTime} Konton: {account1.AccountNumber} Belopp: {transaction.Deposit.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}\n");
                 }
                 else if (transaction.Withdraw > 0)
                 {
-                    streamWriter.Write($"*Uttag* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {account1.AccountNumber} Belopp: {transaction.Withdraw.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}\n");
+                    streamWriter.Write($"*Uttag* Datum: {currentDateTime} Konton: {account1.AccountNumber} Belopp: {transaction.Withdraw.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}\n");
                 }
                 else if (transaction.Transfer > 0)
                 {
-                    streamWriter.Write($"*Överföring* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {account1.AccountNumber} och {account2.AccountNumber} Belopp: {transaction.Transfer.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}\n");
+                    streamWriter.Write($"*Överföring* Datum: {currentDateTime} Konton: {account1.AccountNumber} och {account2.AccountNumber} Belopp: {transaction.Transfer.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}\n");
                 }
                 else if (transaction.Interest > 0)
                 {
-                    streamWriter.Write($"*Ränta* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {account1.AccountNumber} Belopp: {transaction.Interest.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}\n");
+                    streamWriter.Write($"*Ränta* Datum: {currentDateTime} Konton: {account1.AccountNumber} Belopp: {transaction.Interest.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}\n");
                 }
                 else if (transaction.DebtInterest < 0)
                 {

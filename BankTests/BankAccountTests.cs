@@ -18,7 +18,6 @@ namespace BankTests
             Bank bank = new Bank();
             Account account = new Account() { Balance = beginningBalance, Overdraft = overdraft };
             bank.Accounts.Add(account);
-            //bank.Accounts.IndexOf(account);
 
             // Act
             bank.WithdrawMoney(bank.Accounts[bank.Accounts.IndexOf(account)].AccountNumber.ToString(), withdrawAmount.ToString());
@@ -145,5 +144,44 @@ namespace BankTests
             decimal actual = bank.Accounts[bank.Accounts.IndexOf(account)].Balance;
             Assert.AreEqual(expected, actual);
         }//4
+
+        [TestMethod]
+        public void TestDebtInterest()
+        {
+            // Arrange
+            decimal beginningBalance = -3453.62M;
+            decimal debtInterest = 4.25M;
+            decimal expected = -3454.02213M;
+            Bank bank = new Bank();
+            Account account = new Account() { Balance = beginningBalance, DebtInterest = debtInterest };
+            bank.Accounts.Add(account);
+
+            // Act
+            bank.CalculateInterest();
+
+            // Assert
+            decimal actual = bank.Accounts[bank.Accounts.IndexOf(account)].Balance;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TransferNegative()
+        {
+            // Arrange
+            decimal beginningBalance = 82354.72M;
+            decimal transferAmount = -1290.26M;
+            decimal expected = 82354.72M;
+            Bank bank = new Bank();
+            bank.AddCustomer(null, null, null, null, null, null, null, null);
+            bank.AddAccount(bank.Customers[0].CustomerNumber.ToString(), "0");
+            bank.Accounts[0].Balance = beginningBalance;
+
+            // Act
+            bank.TransferMoney(bank.Accounts[0].AccountNumber.ToString(), bank.Accounts[1].AccountNumber.ToString(), transferAmount.ToString());
+
+            // Assert
+            decimal actual = bank.Accounts[0].Balance;
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
