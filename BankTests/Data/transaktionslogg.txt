@@ -195,3 +195,8 @@
 *Överföring* Datum: 20181008-203527 Konton: 3 och 2 Belopp: 7312.88 Saldo: 7312.88
 *Ränta* Datum: 20181008-203527 Konton: 0 Belopp: 15.17502 Saldo: 7336.26669
 *Skuldränta* Datum: 2018108-2035 Konton: 0 Belopp: -0.40218 Saldo: -3454.02213
+*Uttag* Datum: 20181008-230153 Konton: 0 Belopp: 8000.55 Saldo: -2999.79
+*Överföring* Datum: 20181008-230153 Konton: 2 och 3 Belopp: 7312.88 Saldo: -2580.65
+*Överföring* Datum: 20181008-230153 Konton: 3 och 2 Belopp: 7312.88 Saldo: 7312.88
+*Ränta* Datum: 20181008-230153 Konton: 0 Belopp: 15.17502 Saldo: 7336.26669
+*Skuldränta* Datum: 2018108-231 Konton: 0 Belopp: -0.40218 Saldo: -3454.02213

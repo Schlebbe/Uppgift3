@@ -45,9 +45,9 @@ namespace Uppgift3
             else
             {
                 var accountQuery = (from c in Customers
-                                      from a in Accounts
-                                      where a.AccountNumber == int.Parse(query) && a.Owner == c.CustomerNumber
-                                      select c).ToList().FirstOrDefault();
+                                    from a in Accounts
+                                    where a.AccountNumber == int.Parse(query) && a.Owner == c.CustomerNumber
+                                    select c).ToList().FirstOrDefault();
 
                 if (accountQuery != null)
                 {
@@ -405,16 +405,16 @@ namespace Uppgift3
             Console.WriteLine("Land: " + custQuery.Country);
             Console.WriteLine("Telefonnummer: " + custQuery.PhoneNumber);
 
-            var accQuery = (from a in Accounts
+            var accountQuery = (from a in Accounts
                             from c in Customers
                             where a.Owner == c.CustomerNumber && c.CustomerNumber == int.Parse(query)
                             select a).ToList();
 
             decimal totalBalance = 0;
-            if (accQuery.Count > 0)
+            if (accountQuery.Count > 0)
             {
                 Console.WriteLine("\nKonton:");
-                foreach (var a in accQuery)
+                foreach (var a in accountQuery)
                 {
                     Console.WriteLine("Konto " + a.AccountNumber + ": " + a.Balance.ToString(CultureInfo.InvariantCulture) + " kr");
                     totalBalance += a.Balance;
