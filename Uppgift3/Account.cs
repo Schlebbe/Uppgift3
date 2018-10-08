@@ -11,5 +11,6 @@ namespace Uppgift3
         public int AccountNumber { get; set; }
         public int Owner { get; set; }
         public decimal Balance { get; set; }
+        public List<Transaction> Transactions { get; set; } = new List<Transaction>();//transaktioner
     }
 }

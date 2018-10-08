@@ -95,6 +95,17 @@ namespace Uppgift3
                 {
                     accountQuery.Balance -= decimal.Parse(amount);
                     Console.WriteLine(amount.ToString(CultureInfo.InvariantCulture) + " kr har tagits ut från konto " + accountQuery.AccountNumber + ".");
+                    var test = new Transaction()
+                    {
+                        //Deposit = decimal.Parse(amount)
+                        Withdraw = decimal.Parse(amount)
+                        //Transfer = decimal.Parse(amount)
+
+                    };
+                    //Console.WriteLine(accountQuery.Transactions.Count());
+                    accountQuery.Transactions.Add(test);
+                    SaveTransaction(accountQuery.Transactions.LastOrDefault(), accountQuery, null);
+                    //Console.WriteLine(accountQuery.Transactions[0].Deposit);
 
                 }
                 else { Console.WriteLine("För lite saldo på kontot!"); }
@@ -107,10 +118,22 @@ namespace Uppgift3
             var accountQuery = (from a in Accounts
                                 where a.AccountNumber == int.Parse(accountNumber)
                                 select a).ToList().FirstOrDefault();
+
             if (decimal.Parse(amount) > 0)
             {
                 accountQuery.Balance += decimal.Parse(amount);
                 Console.WriteLine(amount.ToString(CultureInfo.InvariantCulture) + " kr har satts in på konto " + accountQuery.AccountNumber + ".");
+                var test = new Transaction()
+                {
+                    Deposit = decimal.Parse(amount)
+                    //Withdraw = decimal.Parse(amount)
+                    //Transfer = decimal.Parse(amount)
+
+                };
+                //Console.WriteLine(accountQuery.Transactions.Count());
+                accountQuery.Transactions.Add(test);
+                SaveTransaction(accountQuery.Transactions.LastOrDefault(), accountQuery, null);
+                //Console.WriteLine(accountQuery.Transactions[0].Deposit);
             }
             else { Console.WriteLine("Ej giltigt belopp!"); }
         }
@@ -133,7 +156,18 @@ namespace Uppgift3
                         fromAccountQuery.Balance -= decimal.Parse(amount);
                         toAccountQuery.Balance += decimal.Parse(amount);
                         Console.WriteLine(amount.ToString(CultureInfo.InvariantCulture) + " kr har överförts från konto " + fromAccountQuery.AccountNumber + " till " + toAccountQuery.AccountNumber + ".");
+                        var transaction = new Transaction()
+                        {
+                            //Deposit = decimal.Parse(amount)
+                            //Withdraw = decimal.Parse(amount)
+                            Transfer = decimal.Parse(amount)
 
+                        };                        
+                        //Console.WriteLine(accountQuery.Transactions.Count());
+                        fromAccountQuery.Transactions.Add(transaction);
+                        SaveTransaction(fromAccountQuery.Transactions.LastOrDefault(), fromAccountQuery, toAccountQuery);
+                        SaveTransaction(fromAccountQuery.Transactions.LastOrDefault(), toAccountQuery, fromAccountQuery);
+                        //Console.WriteLine(accountQuery.Transactions[0].Deposit);
                     }
                     else { Console.WriteLine("Inte tillräckligt på kontot!"); }
                 }
@@ -259,6 +293,12 @@ namespace Uppgift3
                 Console.WriteLine("Ett konto har lagts till för kundnummer: " + custQuery.CustomerNumber);
             }
             else { Console.WriteLine("Skriv in ett giltigt kundnummer!"); }
+        }
+
+        private void SaveTransaction(Transaction transaction, Account account, Account toAccountQuery)
+        {
+            var datahandler = new DataHandler();
+            datahandler.SaveTransaction(transaction, account, toAccountQuery);
         }
 
         public void SaveToFile()

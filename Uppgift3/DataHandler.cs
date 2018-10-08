@@ -110,6 +110,31 @@ namespace Uppgift3
 
         }
 
+        public void SaveTransaction(Transaction transaction, Account account1, Account account2)
+        {
+            string pathDator = @"C:\Users\sebastian.TEMTRON\Source\Repos\Uppgift3\Uppgift3\";
+            DateTime dt = DateTime.Now;
+            string filename = "transaktionslogg.txt";
+            pathDator = Path.Combine(pathDator, filename);
+
+            using (StreamWriter streamWriter = new StreamWriter(pathDator, true))
+            {
+                if (transaction.Deposit > 0)
+                {
+                    streamWriter.Write($"\n*Insättning* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {account1.AccountNumber} Belopp: {transaction.Deposit.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}");
+                }
+                if (transaction.Withdraw > 0)
+                {
+                    streamWriter.Write($"\n*Uttag* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {account1.AccountNumber} Belopp: {transaction.Withdraw.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}");
+                }
+                if (transaction.Transfer > 0)
+                {
+                    streamWriter.Write($"\n*Överföring* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {account1.AccountNumber} och {account2.AccountNumber} Belopp: {transaction.Transfer.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}");
+
+                }
+            }
+        }
+
         public string GetPath()
         {
             string path;
