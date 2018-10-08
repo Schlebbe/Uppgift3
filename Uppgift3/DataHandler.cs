@@ -10,7 +10,7 @@ namespace Uppgift3
 {
     class DataHandler
     {
-        public string fileName = "";
+        public string fileName = "bankdata.txt";
 
         public Bank ReadFromFile()
         {
@@ -80,7 +80,7 @@ namespace Uppgift3
             //string pathLaptop = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
             string defaultPath = @"..\..\Data\";
             DateTime dt = DateTime.Now;
-            string filename = dt.Year + "" + dt.Month + "" + dt.Day + "-" + dt.Hour + dt.Minute + ".txt";
+            string filename = dt.ToString("yyyyMMdd") + "-" + dt.ToString("HHmmss") + ".txt";
             defaultPath = Path.Combine(defaultPath, filename);
             //Console.WriteLine("Path to my file: " + pathDator);
             int countOfCustomers = customers.Count();
@@ -147,13 +147,16 @@ namespace Uppgift3
 
         public string GetPath()
         {
+            Console.Write($"Ange fil att läsa ifrån ({fileName}): ");
             string path;
-            //string pathDator = @"C:\Users\sebastian.TEMTRON\Source\Repos\Uppgift3\Uppgift3\";
-            //string pathLaptop = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
             string defaultPath = @"..\..\Data\";
             try
             {
-                fileName = Console.ReadLine();
+                string fileQuery = Console.ReadLine();
+                if (fileQuery != string.Empty)
+                {
+                    fileName = fileQuery;
+                }
                 path = defaultPath + fileName;
                 StreamReader testStream = new StreamReader(path);
             }
@@ -161,6 +164,7 @@ namespace Uppgift3
             {
                 Console.Clear();
                 Console.WriteLine("Felaktigt filnamn, försök igen!");
+                fileName = "bankdata.txt";
                 path = GetPath();
             }
 

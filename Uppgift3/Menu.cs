@@ -299,7 +299,7 @@ namespace Uppgift3
         private string ParseQuery()
         {
             var query = Console.ReadLine();
-            if (!int.TryParse(query, out int result))
+            if (!decimal.TryParse(query, out decimal result))
             {
                 Console.Write("Måste vara ett heltal!\nFörsök igen: "); query = ParseQuery();
             }

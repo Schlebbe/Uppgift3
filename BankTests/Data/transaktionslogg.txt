@@ -149,6 +149,11 @@
 *Ränta* Datum: 2018108-1829 Konton: 13130 Belopp: 5.22221 Saldo: 3812.21507
 *Insättning* Datum: 2018108-1833 Konton: 13132 Belopp: 10000 Saldo: 10000
 *Ränta* Datum: 2018108-1833 Konton: 13132 Belopp: 101.0000 Saldo: 10100.00
-*Uttag* Datum: 2018108-1857 Konton: 13132 Belopp: 604 Saldo: 0.22
-*Uttag* Datum: 2018108-1857 Konton: 13129 Belopp: 72 Saldo: 0.00
-*Uttag* Datum: 2018108-1859 Konton: 13129 Belopp: 54.25 Saldo: 17.75
+*Uttag* Datum: 2018108-1849 Konton: 0 Belopp: 8000.55 Saldo: -2999.79
+*Överföring* Datum: 2018108-1849 Konton: 2 och 3 Belopp: 7312.88 Saldo: -2580.65
+*Överföring* Datum: 2018108-1849 Konton: 3 och 2 Belopp: 7312.88 Saldo: 7312.88
+*Ränta* Datum: 2018108-1849 Konton: 0 Belopp: 15.17502 Saldo: 7336.26669
+*Uttag* Datum: 2018108-1925 Konton: 0 Belopp: 8000.55 Saldo: -2999.79
+*Överföring* Datum: 2018108-1925 Konton: 2 och 3 Belopp: 7312.88 Saldo: -2580.65
+*Överföring* Datum: 2018108-1925 Konton: 3 och 2 Belopp: 7312.88 Saldo: 7312.88
+*Ränta* Datum: 2018108-1925 Konton: 0 Belopp: 15.17502 Saldo: 7336.26669
