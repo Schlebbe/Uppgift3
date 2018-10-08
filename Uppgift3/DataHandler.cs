@@ -76,19 +76,19 @@ namespace Uppgift3
 
         public void SaveToFile(List<Customer> customers, List<Account> accounts)
         {
-            string pathDator = @"C:\Users\sebastian.TEMTRON\Source\Repos\Uppgift3\Uppgift3\";
-            string pathLaptop = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
-            string defaultPath = @"..\..";
+            //string pathDator = @"C:\Users\sebastian.TEMTRON\Source\Repos\Uppgift3\Uppgift3\";
+            //string pathLaptop = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
+            string defaultPath = @"..\..\Data\";
             DateTime dt = DateTime.Now;
             string filename = dt.Year + "" + dt.Month + "" + dt.Day + "-" + dt.Hour + dt.Minute + ".txt";
-            pathDator = Path.Combine(pathDator, filename);
+            defaultPath = Path.Combine(defaultPath, filename);
             //Console.WriteLine("Path to my file: " + pathDator);
             int countOfCustomers = customers.Count();
             int countOfAccounts = accounts.Count();
             decimal totaltBalance = 0;
             //using (FileStream fs = new FileStream(path, FileMode.Append))
 
-            using (StreamWriter streamWriter = new StreamWriter(pathDator))
+            using (StreamWriter streamWriter = new StreamWriter(defaultPath))
             {
                 streamWriter.WriteLine(countOfCustomers);
                 foreach (var c in customers)
@@ -113,14 +113,14 @@ namespace Uppgift3
 
         public void SaveTransaction(Transaction transaction, Account account1, Account account2)
         {
-            string pathDator = @"C:\Users\sebastian.TEMTRON\Source\Repos\Uppgift3\Uppgift3\";
-            string pathLaptop = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
-            string defaultPath = @"..\..";
+            //string pathDator = @"C:\Users\sebastian.TEMTRON\Source\Repos\Uppgift3\Uppgift3\";
+            //string pathLaptop = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
+            string defaultPath = @"..\..\Data\";
             DateTime dt = transaction.DateTime;
             string filename = "transaktionslogg.txt";
-            pathDator = Path.Combine(pathDator, filename);
+            defaultPath = Path.Combine(defaultPath, filename);
 
-            using (StreamWriter streamWriter = new StreamWriter(pathDator, true))
+            using (StreamWriter streamWriter = new StreamWriter(defaultPath, true))
             {
                 if (transaction.Deposit > 0)
                 {
@@ -148,13 +148,13 @@ namespace Uppgift3
         public string GetPath()
         {
             string path;
-            string pathDator = @"C:\Users\sebastian.TEMTRON\Source\Repos\Uppgift3\Uppgift3\";
-            string pathLaptop = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
-            string defaultPath = @"..\..";
+            //string pathDator = @"C:\Users\sebastian.TEMTRON\Source\Repos\Uppgift3\Uppgift3\";
+            //string pathLaptop = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
+            string defaultPath = @"..\..\Data\";
             try
             {
                 fileName = Console.ReadLine();
-                path = pathDator + fileName;
+                path = defaultPath + fileName;
                 StreamReader testStream = new StreamReader(path);
             }
             catch

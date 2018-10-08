@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Uppgift3
 {
-    class Customer
+    public class Customer
     {
         public int CustomerNumber { get; set; }
         public string OrganisationNumber { get; set; }

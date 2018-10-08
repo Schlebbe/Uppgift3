@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Uppgift3
 {
-    class Bank
+    public class Bank
     {
         public List<Customer> Customers { get; set; } = new List<Customer>();
         public List<Account> Accounts { get; set; } = new List<Account>();
-        public int currentNumber { get; set; }
+        public int CurrentNumber { get; set; }
 
         public void SaveToFile()
         {
@@ -22,8 +22,8 @@ namespace Uppgift3
         public void SearchCustomer(string query)
         {
             var customerQuery = (from c in Customers
-                             where c.CompanyName.ToUpper().Contains(query) || c.ZIPCode.Contains(query)
-                             select c).ToList();
+                                 where c.CompanyName.ToUpper().Contains(query) || c.ZIPCode.Contains(query)
+                                 select c).ToList();
 
             foreach (var c in customerQuery)
             {
@@ -64,12 +64,12 @@ namespace Uppgift3
                                  orderby c.CustomerNumber descending
                                  select c).ToList().FirstOrDefault();
 
-            if (customerQuery != null) currentNumber = customerQuery.CustomerNumber;
-            currentNumber++;
+            if (customerQuery != null) CurrentNumber = customerQuery.CustomerNumber;
+            CurrentNumber++;
 
             Customer customer = new Customer()
             {
-                CustomerNumber = currentNumber,
+                CustomerNumber = CurrentNumber,
                 OrganisationNumber = organisationNumber,
                 CompanyName = companyNumber,
                 Adress = adress,
@@ -82,7 +82,7 @@ namespace Uppgift3
             Customers.Add(customer);
             //Console.Write("Räntesats: ");
             //string interest = Console.ReadLine();
-            AddAccount(currentNumber.ToString(), "0");
+            AddAccount(CurrentNumber.ToString(), "0");
             Console.WriteLine("En kund har lagts till!");
         }//3
 
@@ -126,7 +126,7 @@ namespace Uppgift3
                     }
                 }
 
-                if (!validCustomer) { Console.WriteLine("Skriv in ett giltigt kundnummer!"); }
+                if (!validCustomer) { Console.WriteLine("\nSkriv in ett giltigt kundnummer!"); }
             }
         }//4
 
@@ -136,34 +136,34 @@ namespace Uppgift3
                                 orderby a.AccountNumber descending
                                 select a).ToList().FirstOrDefault();
 
-            if (accountQuery != null) currentNumber = accountQuery.AccountNumber;
-            currentNumber++;
+            if (accountQuery != null) CurrentNumber = accountQuery.AccountNumber;
+            CurrentNumber++;
 
             var customerQuery = (from c in Customers
-                             where c.CustomerNumber == int.Parse(query)
-                             select c).ToList().FirstOrDefault();
+                                 where c.CustomerNumber == int.Parse(query)
+                                 select c).ToList().FirstOrDefault();
 
             if (customerQuery != null)
             {
                 Account account = new Account()
                 {
-                    AccountNumber = currentNumber,
+                    AccountNumber = CurrentNumber,
                     Owner = customerQuery.CustomerNumber,
                     Balance = 0,
                     Interest = decimal.Parse(interest)
                 };
 
                 Accounts.Add(account);
-                Console.WriteLine("Ett konto har lagts till för kundnummer: " + customerQuery.CustomerNumber+"!");
+                Console.WriteLine("\nEtt konto har lagts till för kundnummer: " + customerQuery.CustomerNumber + "!");
             }
-            else { Console.WriteLine("Skriv in ett giltigt kundnummer!"); }
+            else { Console.WriteLine("\nSkriv in ett giltigt kundnummer!"); }
         }//5
 
         public void RemoveAccount(string query)
         {
             var accountQuery = (from a in Accounts
-                            where a.AccountNumber == int.Parse(query)
-                            select a).ToList();
+                                where a.AccountNumber == int.Parse(query)
+                                select a).ToList();
 
             if (accountQuery.Count != 0)
             {
@@ -203,7 +203,7 @@ namespace Uppgift3
                     SaveTransaction(accountQuery.Transactions.LastOrDefault(), accountQuery, null);
                     //Console.WriteLine(accountQuery.Transactions[0].Deposit);
                 }
-                else { Console.WriteLine("Ej giltigt belopp!"); }
+                else { Console.WriteLine("\nEj giltigt belopp!"); }
             }
             else { Console.WriteLine("\nSkriv in ett giltigt kontonummer!"); }
 
@@ -235,9 +235,9 @@ namespace Uppgift3
                         //Console.WriteLine(accountQuery.Transactions[0].Deposit);
 
                     }
-                    else { Console.WriteLine("För lite saldo på kontot!"); }
+                    else { Console.WriteLine("\nFör lite saldo på kontot!"); }
                 }
-                else { Console.WriteLine("Ej giltigt belopp!"); }
+                else { Console.WriteLine("\nEj giltigt belopp!"); }
             }
             else { Console.WriteLine("\nSkriv in ett giltigt kontonummer!"); }
         }//8
@@ -251,10 +251,9 @@ namespace Uppgift3
             var toAccountQuery = (from a in Accounts
                                   where a.AccountNumber == int.Parse(toAccount)
                                   select a).ToList().FirstOrDefault();
+
             if (fromAccountQuery != null && toAccountQuery != null)
             {
-
-
                 if (decimal.Parse(amount) > 0)
                 {
                     if (!(fromAccountQuery.AccountNumber == toAccountQuery.AccountNumber))
@@ -285,7 +284,7 @@ namespace Uppgift3
                     }
                     else { Console.WriteLine("Du kan bara överföra mellan två olika konton!"); }
                 }
-                else { Console.WriteLine("Ej giltigt belopp!"); }
+                else { Console.WriteLine("\nEj giltigt belopp!"); }
             }
             else { Console.WriteLine("\nSkriv in ett giltigt kontonummer!"); }
         }//9
@@ -437,8 +436,6 @@ namespace Uppgift3
             var datahandler = new DataHandler();
             datahandler.SaveTransaction(transaction, account, toAccountQuery);
         }//7 8 9
-
-
     }
 }
 

@@ -236,7 +236,7 @@ namespace Uppgift3
             var account = ParseQuery();
             Console.Write("Nya räntesatsen? ");
             var newInterest = ParseQuery();
-            if (decimal.Parse(newInterest) > 0)
+            if (decimal.Parse(newInterest) >= 0)
             {
                 Bank.ChangeInterest(account, newInterest);
             }
@@ -263,6 +263,15 @@ namespace Uppgift3
             var account = ParseQuery();
             Console.Write("Nya krediten? ");
             var newCredit = ParseQuery();
+            if (decimal.Parse(newCredit) >= 0)
+            {
+                Bank.ChangeCredit(account, newCredit);
+            }
+            else
+            {
+                Console.WriteLine("Krediten måste vara positiv, försök igen.");
+                ChangeCredit();
+            }
             Bank.ChangeCredit(account, newCredit);
             AskForInput(true);
         } //13
@@ -274,7 +283,16 @@ namespace Uppgift3
             var account = ParseQuery();
             Console.Write("Nya skuldräntan? ");
             var newDebtInterest = ParseQuery();
-            Bank.ChangeDebtInterest(account, newDebtInterest);
+            if (decimal.Parse(newDebtInterest) >= 0)
+            {
+                Bank.ChangeDebtInterest(account, newDebtInterest);
+            }
+            else
+            {
+                Console.WriteLine("Skuldräntan måste vara positiv, försök igen.");
+                ChangeDebtInterest();
+            }
+            
             AskForInput(true);
         } //14
 

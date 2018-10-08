@@ -47,17 +47,18 @@ Byt namn på alla variabler så fredrik inte får aids när han läser min kod. 
 
 Fixa try.parse på allting. //Även på decimal(7,8,9)! //Lägg det i metoderna i menu för fan!
 
-
-
-
-
-
-
 Skapa Unit Tester som verifierar att uttag och överföringar fungerar med checkkredit och räntan
 beräknas korrekt.
 
 Skapa ett Unit Test-projekt där du skriver tester som testar att det 1) inte går att ta ut eller 2) överföra
 mer pengar än det finns på kontot. Det ska inte heller 3) gå att sätta in eller 4) ta ut negativa belopp.
+
+
+
+
+
+
+
 
 Flytta in .txt filerna i en mapp och använd den istället. Hitta sätt att använda filen oberoende av top-level folders (aka samma kod för laptopen och datorn).
 

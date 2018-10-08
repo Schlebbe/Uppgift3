@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Uppgift3
 {
-    class Account
+    public class Account
     {
         public int AccountNumber { get; set; }
         public int Owner { get; set; }

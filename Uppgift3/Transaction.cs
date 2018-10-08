@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Uppgift3
 {
-    class Transaction
+    public class Transaction
     {
         public decimal Deposit { get; set; }
         public decimal Withdraw { get; set; }
