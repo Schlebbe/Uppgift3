@@ -1,0 +1,4 @@
+*Insättning* Datum: 2018108-1252 Konton: 13130 Belopp: 1000 Saldo: 5807.00
+*Uttag* Datum: 2018108-1252 Konton: 13130 Belopp: 1000 Saldo: 4807.00
+*Överföring* Datum: 2018108-1252 Konton: 13130 och 13128 Belopp: 1000 Saldo: 3807.00
+*Överföring* Datum: 2018108-1252 Konton: 13128 och 13130 Belopp: 1000 Saldo: 1392.20

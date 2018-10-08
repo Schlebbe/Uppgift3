@@ -10,7 +10,7 @@ namespace Uppgift3
 {
     class DataHandler
     {
-        public string test = "";
+        public string fileName = "";
 
         public Bank ReadFromFile()
         {
@@ -18,7 +18,7 @@ namespace Uppgift3
             Console.WriteLine("\n******************************");
             Console.WriteLine("* VÄLKOMMEN TILL BANKAPP 1.0 *");
             Console.WriteLine("******************************\n");
-            Console.WriteLine("Läser in " + test + "...");
+            Console.WriteLine("Läser in " + fileName + "...");
             var bank = new Bank();
 
             using (StreamReader reader = new StreamReader(path))//Lägg till try catch
@@ -38,7 +38,7 @@ namespace Uppgift3
                         Adress = cols[3],
                         City = cols[4],
                         Region = cols[5],
-                        PostNumber = cols[6],
+                        ZIPCode = cols[6],
                         Country = cols[7],
                         PhoneNumber = cols[8]
                     };
@@ -92,7 +92,7 @@ namespace Uppgift3
                 streamWriter.WriteLine(countOfCustomers);
                 foreach (var c in customers)
                 {
-                    string line = $"{c.CustomerNumber};{c.OrganisationNumber};{c.CompanyName};{c.Adress};{c.City};{c.Region};{c.PostNumber};{c.Country};{c.PhoneNumber}";
+                    string line = $"{c.CustomerNumber};{c.OrganisationNumber};{c.CompanyName};{c.Adress};{c.City};{c.Region};{c.ZIPCode};{c.Country};{c.PhoneNumber}";
                     streamWriter.WriteLine(line);
                 }
                 streamWriter.WriteLine(countOfAccounts);
@@ -113,7 +113,8 @@ namespace Uppgift3
         public void SaveTransaction(Transaction transaction, Account account1, Account account2)
         {
             string pathDator = @"C:\Users\sebastian.TEMTRON\Source\Repos\Uppgift3\Uppgift3\";
-            DateTime dt = DateTime.Now;
+            string pathLaptop = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
+            DateTime dt = transaction.DateTime;
             string filename = "transaktionslogg.txt";
             pathDator = Path.Combine(pathDator, filename);
 
@@ -121,16 +122,15 @@ namespace Uppgift3
             {
                 if (transaction.Deposit > 0)
                 {
-                    streamWriter.Write($"\n*Insättning* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {account1.AccountNumber} Belopp: {transaction.Deposit.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}");
+                    streamWriter.Write($"*Insättning* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {account1.AccountNumber} Belopp: {transaction.Deposit.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}\n");
                 }
-                if (transaction.Withdraw > 0)
+                else if (transaction.Withdraw > 0)
                 {
-                    streamWriter.Write($"\n*Uttag* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {account1.AccountNumber} Belopp: {transaction.Withdraw.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}");
+                    streamWriter.Write($"*Uttag* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {account1.AccountNumber} Belopp: {transaction.Withdraw.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}\n");
                 }
-                if (transaction.Transfer > 0)
+                else if (transaction.Transfer > 0)
                 {
-                    streamWriter.Write($"\n*Överföring* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {account1.AccountNumber} och {account2.AccountNumber} Belopp: {transaction.Transfer.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}");
-
+                    streamWriter.Write($"*Överföring* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {account1.AccountNumber} och {account2.AccountNumber} Belopp: {transaction.Transfer.ToString(CultureInfo.InvariantCulture)} Saldo: {account1.Balance.ToString(CultureInfo.InvariantCulture)}\n");
                 }
             }
         }
@@ -142,8 +142,8 @@ namespace Uppgift3
             string pathLaptop = @"C:\Users\sebastian\source\repos\Uppgift3\Uppgift3\";
             try
             {
-                test = Console.ReadLine();
-                path = pathDator + test;
+                fileName = Console.ReadLine();
+                path = pathDator + fileName;
                 StreamReader testStream = new StreamReader(path);
             }
             catch

@@ -12,14 +12,10 @@ namespace Uppgift3
     {
         static void Main(string[] args)
         {
-
-            //var path = "";
-            //path = GetPath();
             DataHandler dataHandler = new DataHandler();
             var bank = dataHandler.ReadFromFile();
             Menu menu = new Menu(bank);
             Console.ReadKey();
-            //Console.WriteLine(bank.Customers[0].CustomerNr);
         }
     }
 }

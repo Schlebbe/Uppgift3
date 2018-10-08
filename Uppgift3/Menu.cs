@@ -32,7 +32,9 @@ namespace Uppgift3
                     "6) Ta bort konto\n" +
                     "7) Insättning\n" +
                     "8) Uttag\n" +
-                    "9) Överföring");
+                    "9) Överföring\n" +
+                    "10) Visa transaktioner\n" +
+                    "11) Ränta\n");
                 Console.Write("\n> ");
             }
             else { Console.Write("\n> "); }
@@ -80,9 +82,12 @@ namespace Uppgift3
                     TransferMoney();
                     break;
                 case 10:
+                    ShowTransactions();
+                    break;
+                case 11:
                     break;
                 default:
-                    Console.WriteLine("Skriv en siffra mellan 0-9");
+                    Console.WriteLine("Skriv en siffra mellan 0-11");
                     AskForInput(true);
                     break;
             }
@@ -120,13 +125,13 @@ namespace Uppgift3
             Console.Write("Län: ");
             string region = Console.ReadLine();
             Console.Write("Postnummer: ");
-            string postNr = Console.ReadLine();
+            string zipCode = Console.ReadLine();
             Console.Write("Land: ");
             string country = Console.ReadLine();
             Console.Write("Telefonnummer: ");
             string phoneNr = Console.ReadLine();
 
-            Bank.AddCustomer(orgNr, compNr, adress, city, region, postNr, country, phoneNr);
+            Bank.AddCustomer(orgNr, compNr, adress, city, region, zipCode, country, phoneNr);
             AskForInput(true);
         } //3
 
@@ -190,6 +195,15 @@ namespace Uppgift3
             Bank.TransferMoney(fromAccount, toAccount, amount);
             AskForInput(true);
         } //9
+
+        private void ShowTransactions()
+        {
+            Console.WriteLine("* Visa transaktioner *");
+            Console.Write("Kontonummer? ");
+            var account = Console.ReadLine();
+            Bank.ShowTransactions(account);
+            AskForInput(true);
+        } //10
     }
 }
 

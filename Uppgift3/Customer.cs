@@ -14,7 +14,7 @@ namespace Uppgift3
         public string Adress { get; set; }
         public string City { get; set; }
         public string Region { get; set; }
-        public string PostNumber { get; set; }
+        public string ZIPCode { get; set; }
         public string Country { get; set; }
         public string PhoneNumber { get; set; }
     }

@@ -13,7 +13,52 @@ namespace Uppgift3
         public List<Account> Accounts { get; set; } = new List<Account>();
         public int CurrentNr { get; set; }
 
-        public void AddCustomer(string organisationNumber, string companyNumber, string adress, string city, string region, string postNumber, string country, string phoneNumber)
+        public void SaveToFile()
+        {
+            var datahandler = new DataHandler();
+            datahandler.SaveToFile(Customers, Accounts);
+        }//0
+
+        public void SearchCustomer(string query)
+        {
+            var custQuery = (from c in Customers
+                             where c.CompanyName.ToUpper().Contains(query) || c.ZIPCode.Contains(query)
+                             select c).ToList();
+
+            foreach (var i in custQuery)
+            {
+                Console.Write(/*"Kundnummer "+*/i.CustomerNumber + ": ");
+                Console.WriteLine(i.CompanyName + " ");
+            }
+        }//1
+
+        public void ShowInfo(string query)//Kaos på variablernamn
+        {
+            var custQuery = (from c in Customers
+                             where c.CustomerNumber == int.Parse(query)
+                             select c).ToList().FirstOrDefault();
+
+            if (custQuery != null)
+            {
+                PrintCustomerInfo(custQuery, query);
+            }
+            else
+            {
+                var custQuery2 = (from c in Customers
+                                  from a in Accounts
+                                  where a.AccountNumber == int.Parse(query) && a.Owner == c.CustomerNumber
+                                  select c).ToList().FirstOrDefault();
+
+                if (custQuery2 != null)
+                {
+                    PrintCustomerInfo(custQuery2, custQuery2.CustomerNumber.ToString());
+
+                }
+                else { Console.WriteLine("Ej giltigt kund- eller kontonummer!"); }
+            }
+        }//2
+
+        public void AddCustomer(string organisationNumber, string companyNumber, string adress, string city, string region, string zipCode, string country, string phoneNumber)
         {
             var custQuery = (from c in Customers
                              orderby c.CustomerNumber descending
@@ -30,14 +75,14 @@ namespace Uppgift3
                 Adress = adress,
                 City = city,
                 Region = region,
-                PostNumber = postNumber,
+                ZIPCode = zipCode,
                 Country = country,
                 PhoneNumber = phoneNumber
             };
             Customers.Add(customer);
             AddAccount(CurrentNr.ToString());
             Console.WriteLine("En kund har lagts till!");
-        }
+        }//3
 
         public void RemoveCustomer(string query)
         {
@@ -81,7 +126,81 @@ namespace Uppgift3
 
                 if (!validCustomer) { Console.WriteLine("Skriv in ett giltigt kundnummer!"); }
             }
-        }
+        }//4
+
+        public void AddAccount(string query)
+        {
+            var accQuery = (from a in Accounts
+                            orderby a.AccountNumber descending
+                            select a).ToList().FirstOrDefault();
+
+            if (accQuery != null) CurrentNr = accQuery.AccountNumber;
+            CurrentNr++;
+
+            var custQuery = (from c in Customers
+                             where c.CustomerNumber == int.Parse(query)
+                             select c).ToList().FirstOrDefault();
+
+            if (custQuery != null)
+            {
+                Account account = new Account()
+                {
+                    AccountNumber = CurrentNr,
+                    Owner = custQuery.CustomerNumber,
+                    Balance = 0
+                };
+
+                Accounts.Add(account);
+                Console.WriteLine("Ett konto har lagts till för kundnummer: " + custQuery.CustomerNumber);
+            }
+            else { Console.WriteLine("Skriv in ett giltigt kundnummer!"); }
+        }//5
+
+        public void RemoveAccount(string query)
+        {
+            var accQuery = (from a in Accounts
+                            where a.AccountNumber == int.Parse(query)
+                            select a).ToList();
+
+            if (accQuery.Count != 0)
+            {
+                foreach (var a in accQuery)
+                {
+                    if (a.Balance == 0)
+                    {
+                        Accounts.RemoveAt(Accounts.IndexOf(a));
+                        Console.WriteLine("Konto borttaget!");
+                    }
+                    else { Console.WriteLine("Kontot måste vara tomt för att tas bort!"); }
+                }
+            }
+            else { Console.WriteLine("Skriv in ett giltigt kontonummer!"); }
+        }//6
+
+        public void DepositMoney(string accountNumber, string amount)
+        {
+            var accountQuery = (from a in Accounts
+                                where a.AccountNumber == int.Parse(accountNumber)
+                                select a).ToList().FirstOrDefault();
+
+            if (decimal.Parse(amount) > 0)
+            {
+                accountQuery.Balance += decimal.Parse(amount);
+                Console.WriteLine(amount.ToString(CultureInfo.InvariantCulture) + " kr har satts in på konto " + accountQuery.AccountNumber + ".");
+                var test = new Transaction()
+                {
+                    Deposit = decimal.Parse(amount)
+                    //Withdraw = decimal.Parse(amount)
+                    //Transfer = decimal.Parse(amount)
+
+                };
+                //Console.WriteLine(accountQuery.Transactions.Count());
+                accountQuery.Transactions.Add(test);
+                SaveTransaction(accountQuery.Transactions.LastOrDefault(), accountQuery, null);
+                //Console.WriteLine(accountQuery.Transactions[0].Deposit);
+            }
+            else { Console.WriteLine("Ej giltigt belopp!"); }
+        }//7
 
         public void WithdrawMoney(string accountNumber, string amount)
         {
@@ -111,32 +230,7 @@ namespace Uppgift3
                 else { Console.WriteLine("För lite saldo på kontot!"); }
             }
             else { Console.WriteLine("Ej giltigt belopp!"); }
-        }
-
-        public void DepositMoney(string accountNumber, string amount)
-        {
-            var accountQuery = (from a in Accounts
-                                where a.AccountNumber == int.Parse(accountNumber)
-                                select a).ToList().FirstOrDefault();
-
-            if (decimal.Parse(amount) > 0)
-            {
-                accountQuery.Balance += decimal.Parse(amount);
-                Console.WriteLine(amount.ToString(CultureInfo.InvariantCulture) + " kr har satts in på konto " + accountQuery.AccountNumber + ".");
-                var test = new Transaction()
-                {
-                    Deposit = decimal.Parse(amount)
-                    //Withdraw = decimal.Parse(amount)
-                    //Transfer = decimal.Parse(amount)
-
-                };
-                //Console.WriteLine(accountQuery.Transactions.Count());
-                accountQuery.Transactions.Add(test);
-                SaveTransaction(accountQuery.Transactions.LastOrDefault(), accountQuery, null);
-                //Console.WriteLine(accountQuery.Transactions[0].Deposit);
-            }
-            else { Console.WriteLine("Ej giltigt belopp!"); }
-        }
+        }//8
 
         public void TransferMoney(string fromAccount, string toAccount, string amount)
         {
@@ -156,72 +250,59 @@ namespace Uppgift3
                         fromAccountQuery.Balance -= decimal.Parse(amount);
                         toAccountQuery.Balance += decimal.Parse(amount);
                         Console.WriteLine(amount.ToString(CultureInfo.InvariantCulture) + " kr har överförts från konto " + fromAccountQuery.AccountNumber + " till " + toAccountQuery.AccountNumber + ".");
-                        var transaction = new Transaction()
+                        var fromAccountTransaction = new Transaction()
                         {
-                            //Deposit = decimal.Parse(amount)
-                            //Withdraw = decimal.Parse(amount)
-                            Transfer = decimal.Parse(amount)
-
-                        };                        
-                        //Console.WriteLine(accountQuery.Transactions.Count());
-                        fromAccountQuery.Transactions.Add(transaction);
+                            Transfer = decimal.Parse(amount),
+                            FromAccount = int.Parse(fromAccount),
+                            ToAccount = int.Parse(toAccount)
+                        };
+                        var toAccountTransaction = new Transaction()
+                        {
+                            Transfer = decimal.Parse(amount),
+                            FromAccount = int.Parse(toAccount),
+                            ToAccount = int.Parse(fromAccount)
+                        };
+                        fromAccountQuery.Transactions.Add(fromAccountTransaction);
+                        toAccountQuery.Transactions.Add(toAccountTransaction);
                         SaveTransaction(fromAccountQuery.Transactions.LastOrDefault(), fromAccountQuery, toAccountQuery);
                         SaveTransaction(fromAccountQuery.Transactions.LastOrDefault(), toAccountQuery, fromAccountQuery);
-                        //Console.WriteLine(accountQuery.Transactions[0].Deposit);
                     }
                     else { Console.WriteLine("Inte tillräckligt på kontot!"); }
                 }
                 else { Console.WriteLine("Du kan bara överföra mellan två olika konton."); }
             }
             else { Console.WriteLine("Ej giltigt belopp!"); }
-        }
+        }//9
 
-        public void RemoveAccount(string query)
+        public void ShowTransactions(string accountNumber)
         {
-            var accQuery = (from a in Accounts
-                            where a.AccountNumber == int.Parse(query)
-                            select a).ToList();
+            var accountQuery = (from a in Accounts
+                                where a.AccountNumber == int.Parse(accountNumber)
+                                select a).ToList().FirstOrDefault();
 
-            if (accQuery.Count != 0)
+            if (accountQuery.Transactions.Count() > 0)
             {
-                foreach (var a in accQuery)
+                foreach (var t in accountQuery.Transactions)
                 {
-                    if (a.Balance == 0)
+                    var dt = t.DateTime;
+
+                    if (t.Deposit > 0)
                     {
-                        Accounts.RemoveAt(Accounts.IndexOf(a));
-                        Console.WriteLine("Konto borttaget!");
+                        Console.WriteLine($"*Insättning* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {accountQuery.AccountNumber} Belopp: {t.Deposit.ToString(CultureInfo.InvariantCulture)} Saldo: {accountQuery.Balance.ToString(CultureInfo.InvariantCulture)}");
                     }
-                    else { Console.WriteLine("Kontot måste vara tomt för att tas bort!"); }
-                }
-            }
-            else { Console.WriteLine("Skriv in ett giltigt kontonummer!"); }
-        }
-
-        public void ShowInfo(string query)//Kaos på variablernamn
-        {
-            var custQuery = (from c in Customers
-                             where c.CustomerNumber == int.Parse(query)
-                             select c).ToList().FirstOrDefault();
-
-            if (custQuery != null)
-            {
-                PrintCustomerInfo(custQuery, query);
-            }
-            else
-            {
-                var custQuery2 = (from c in Customers
-                                  from a in Accounts
-                                  where a.AccountNumber == int.Parse(query) && a.Owner == c.CustomerNumber
-                                  select c).ToList().FirstOrDefault();
-
-                if (custQuery2 != null)
-                {
-                    PrintCustomerInfo(custQuery2, custQuery2.CustomerNumber.ToString());
+                    else if (t.Withdraw > 0)
+                    {
+                        Console.WriteLine($"*Uttag* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {accountQuery.AccountNumber} Belopp: {t.Withdraw.ToString(CultureInfo.InvariantCulture)} Saldo: {accountQuery.Balance.ToString(CultureInfo.InvariantCulture)}");
+                    }
+                    else if (t.Transfer > 0)
+                    {
+                        Console.WriteLine($"*Överföring* Datum: {dt.Year}{dt.Month}{dt.Day}-{dt.Hour}{dt.Minute} Konton: {t.FromAccount} och {t.ToAccount} Belopp: {t.Transfer.ToString(CultureInfo.InvariantCulture)} Saldo: {accountQuery.Balance.ToString(CultureInfo.InvariantCulture)}");
+                    }
 
                 }
-                else { Console.WriteLine("Ej giltigt kund- eller kontonummer!"); }
             }
-        }
+            else { Console.WriteLine("Finns inga transaktioner!"); }
+        }//10
 
         private void PrintCustomerInfo(Customer custQuery, string query)
         {
@@ -231,7 +312,7 @@ namespace Uppgift3
             Console.WriteLine("Adress: " + custQuery.Adress); //Kanske fler? Typ zip code
             Console.WriteLine("Stad: " + custQuery.City);
             Console.WriteLine("Region: " + custQuery.Region);
-            Console.WriteLine("Postnummer: " + custQuery.PostNumber);
+            Console.WriteLine("Postnummer: " + custQuery.ZIPCode);
             Console.WriteLine("Land: " + custQuery.Country);
             Console.WriteLine("Telefonnummer: " + custQuery.PhoneNumber);
 
@@ -252,60 +333,13 @@ namespace Uppgift3
 
                 Console.WriteLine("Totalt saldo: " + totalBalance.ToString(CultureInfo.InvariantCulture) + " kr");
             }
-        }
-
-        public void SearchCustomer(string query)
-        {
-            var custQuery = (from c in Customers
-                             where c.CompanyName.ToUpper().Contains(query) || c.PostNumber.Contains(query)
-                             select c).ToList();
-
-            foreach (var i in custQuery)
-            {
-                Console.Write(/*"Kundnummer "+*/i.CustomerNumber + ": ");
-                Console.WriteLine(i.CompanyName + " ");
-            }
-        }
-
-        public void AddAccount(string query)
-        {
-            var accQuery = (from a in Accounts
-                            orderby a.AccountNumber descending
-                            select a).ToList().FirstOrDefault();
-
-            if (accQuery != null) CurrentNr = accQuery.AccountNumber;
-            CurrentNr++;
-
-            var custQuery = (from c in Customers
-                             where c.CustomerNumber == int.Parse(query)
-                             select c).ToList().FirstOrDefault();
-
-            if (custQuery != null)
-            {
-                Account account = new Account()
-                {
-                    AccountNumber = CurrentNr,
-                    Owner = custQuery.CustomerNumber,
-                    Balance = 0
-                };
-
-                Accounts.Add(account);
-                Console.WriteLine("Ett konto har lagts till för kundnummer: " + custQuery.CustomerNumber);
-            }
-            else { Console.WriteLine("Skriv in ett giltigt kundnummer!"); }
-        }
+        }//2
 
         private void SaveTransaction(Transaction transaction, Account account, Account toAccountQuery)
         {
             var datahandler = new DataHandler();
             datahandler.SaveTransaction(transaction, account, toAccountQuery);
-        }
-
-        public void SaveToFile()
-        {
-            var datahandler = new DataHandler();
-            datahandler.SaveToFile(Customers, Accounts);
-        }
+        }//7 8 9
     }
 }
 

@@ -23,13 +23,21 @@ avrundningsfel så använd rätt typ för saldo och belopp som är pengar.
 
 Det ska framgå tydligt om någon försöker ta ut eller överföra mer pengar än vad som finns på kontot!
 
+När bankappen startar behöver du inte ladda in gamla transaktioner. Däremot ska varje transaktion
+sparas ned som sist i en textfil (t ex transaktionslogg.txt) med datum, inblandade konton, belopp och
+kontots saldo efter transaktion. Filen ska stängas efter varje transaktion. //Append??
+
+Lägg till en kontobild där man kan se transaktioner för ett individuellt konto.
+
+Lägg till ett transaktionsobjekt så det går att se historiken för dagens insättningar, uttag och
+överföringar på respektive konto. Det ska inte gå att ändra saldo på ett konto utan att det skapas en
+transaktion.
 
 
 
 
 
-Skapa Unit Tester som verifierar att uttag och överföringar fungerar med checkkredit och räntan
-beräknas korrekt.
+
 
 Lägg till stöd checkkredit på konto genom att lägga till egenskaper för kreditgräns och skuldränta på
 varje konton. Kreditgräns och skuldränta ska kunna ändras per konto. Om ett konto har en kreditgräns
@@ -41,18 +49,11 @@ Lägg till stöd för sparränta på konton. Sparräntan är en årsränta och s
 konto. Räntan måste vara positiv. Gör ett menyalternativ som räknar ut och lägger på dagens ränta på
 alla konton. En transaktion ska skapas på varje konto för insättningen av ränta.
 
+Skapa Unit Tester som verifierar att uttag och överföringar fungerar med checkkredit och räntan
+beräknas korrekt.
+
 Skapa ett Unit Test-projekt där du skriver tester som testar att det 1) inte går att ta ut eller 2) överföra
 mer pengar än det finns på kontot. Det ska inte heller 3) gå att sätta in eller 4) ta ut negativa belopp.
-
-När bankappen startar behöver du inte ladda in gamla transaktioner. Däremot ska varje transaktion
-sparas ned som sist i en textfil (t ex transaktionslogg.txt) med datum, inblandade konton, belopp och
-kontots saldo efter transaktion. Filen ska stängas efter varje transaktion. //Append??
-
-Lägg till en kontobild där man kan se transaktioner för ett individuellt konto.
-
-Lägg till ett transaktionsobjekt så det går att se historiken för dagens insättningar, uttag och
-överföringar på respektive konto. Det ska inte gå att ändra saldo på ett konto utan att det skapas en
-transaktion.
 
 Byt namn på alla variabler så fredrik inte får aids när han läser min kod. Utropstecken eller punkter? Konsekvent med hur många \n det ska vara överallt.
 
@@ -63,4 +64,5 @@ Fixa try.parse på allting. //Även på decimal(7,8,9)! //Lägg det i metoderna 
 7 (Insättning)
 8 (Uttag)
 9 (Överföring)
-10 (Ränta)
+10 (Visa transaktioner)
+11 (Ränta)
